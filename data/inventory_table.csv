@@ -1,24 +1,44 @@
-Product,Opening inventory,Stock In,Stock out,Schedule inventory,Total inventory quantity,In stock
+Product,Opening inventory,Stock In,Stock out,Schedule inventory,Total inventory,In stock
 产品名称,初始库存数量,入库总数量,出库总数量,预定总数量,库存总数量,可用库存
-Tomato,238,28349,23,0,0,0
-橘子,5,0,1,1,4,3
-苹果,10,100,0,0,110,110
-Lemon,439,186,91,120,314,309
-Apple,416,220,148,123,487,311
-Papaya,427,190,94,113,423,319
-Fig,348,264,153,116,519,337
-Honeydew,335,252,119,99,368,345
-Mango,506,268,141,91,359,361
-Orange,389,220,121,95,530,371
-Kiwi,513,251,116,77,467,373
-Jackfruit,430,195,85,106,474,427
-Raspberry,467,255,146,96,412,440
-Italian Plum,364,227,114,108,392,442
-Strawberry,333,223,128,104,419,442
-Elderberry,353,212,119,92,331,448
-Date,382,271,117,120,501,496
-Cherry,344,279,128,122,456,515
-Grape,453,192,158,94,407,518
-Nectarine,366,217,92,100,479,524
-Banana,466,211,119,86,263,526
-Quince,413,234,66,100,336,552
+Date,16,7,25,6,-2,-8
+Kiwi,32,13,29,18,16,-2
+Tomato,0,0,0,0,0,0
+橘子,0,0,0,0,0,0
+苹果,0,0,0,0,0,0
+Lemon,0,0,0,0,0,0
+Apple,0,0,0,0,0,0
+Papaya,0,0,0,0,0,0
+Fig,0,0,0,0,0,0
+Honeydew,0,0,0,0,0,0
+Mango,0,0,0,0,0,0
+Orange,0,0,0,0,0,0
+Kiwi,0,0,0,0,0,0
+Jackfruit,0,0,0,0,0,0
+Raspberry,0,0,0,0,0,0
+Italian Plum,0,0,0,0,0,0
+Strawberry,0,0,0,0,0,0
+Elderberry,0,0,0,0,0,0
+Date,0,0,0,0,0,0
+Cherry,0,0,0,0,0,0
+Grape,0,0,0,0,0,0
+Nectarine,0,0,0,0,0,0
+Banana,0,0,0,0,0,0
+Quince,0,0,0,0,0,0
+Grape,17,27,5,16,39,23
+Italian Plum,33,8,9,7,32,25
+Tomato,29,28,3,9,54,45
+Mango,83,6,26,17,63,46
+Lemon,42,39,19,15,62,47
+Fig,66,12,16,8,62,54
+Cherry,53,23,9,7,67,60
+Elderberry,40,32,3,6,69,63
+Apple,87,19,18,16,88,72
+Nectarine,51,39,7,11,83,72
+Papaya,88,13,15,12,86,74
+Banana,49,44,10,6,83,77
+Raspberry,51,50,13,7,88,81
+Honeydew,71,38,8,18,101,83
+Orange,100,10,15,12,95,83
+Strawberry,77,39,15,13,101,88
+Quince,92,21,7,11,106,95
+Jackfruit,96,34,3,5,127,122

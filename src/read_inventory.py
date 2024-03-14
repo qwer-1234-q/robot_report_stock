@@ -1,34 +1,42 @@
 import csv 
+from datetime import datetime
 import random
+from helper import handle_data
 
-def is_number(value):
-    try:
-        float(value)
-        return True
-    except ValueError:
-        return False
-    
+def get_inventory_title():
+    return {
+                'Product': "产品名称",
+                'Opening inventory': "初始库存数量",
+                'Stock In': "入库总数量",
+                'Stock out': "出库总数量",
+                'Schedule inventory': "预定总数量",
+                'Total inventory': "库存总数量",
+                'In stock': "可用库存"
+            }
+
 class Inventory:
-    def __init__(self, product, opening_inventory, stock_in, 
-                 stock_out, schedule_inventory, total_inventory, 
-                 in_stock):
+    def __init__(self, product, opening_inventory=0, stock_in=0, 
+                 stock_out=0, schedule_inventory=0, total_inventory=None, in_stock=None):
         self._product = product 
         self._product_chinese = "产品名称"
-        self._opening_inventory = opening_inventory
+        self._opening_inventory = int(opening_inventory)
         self._opening_inventory_chinese = "初始库存数量"
-        self._stock_in = stock_in
+        self._stock_in = int(stock_in)
         self._stock_in_chinese = "入库总数量"
-        self._stock_out = stock_out 
+        self._stock_out = int(stock_out) 
         self._stock_out_chinese = "出库总数量"
-        self._schedule_inventory = schedule_inventory
+        self._schedule_inventory = int(schedule_inventory)
         self._schedule_inventory_chinese = "预定总数量"
-        self._total_inventory = total_inventory
-        if self._total_inventory is None or self._total_inventory == '0' or self._total_inventory == 0:
+        if handle_data(total_inventory) == 0:
             self._total_inventory = str(int(self._opening_inventory) - int(self._stock_out) + int(self._stock_in))
+        else:
+            self._total_inventory = int(total_inventory)
         self._total_inventory_chinese = "库存总数量"
-        self._in_stock = in_stock 
-        if self._in_stock is None or self._in_stock == '0' or self._in_stock == 0:
+         
+        if handle_data(in_stock) == 0:
             self._in_stock = str(int(self._total_inventory) - int(self._schedule_inventory))
+        else: 
+            self._in_stock = int(in_stock)
         self._in_stock_chinese = "可用库存"
         
     def get_product(self):
@@ -73,6 +81,17 @@ class Inventory:
     def get_in_stock_chinese(self):
         return self._in_stock_chinese
     
+    def to_dict(self):
+        return {
+                    'Product': self.get_product(),
+                    'Opening inventory': self.get_opening_inventory(),
+                    'Stock In': self.get_stock_in(),
+                    'Stock out': self.get_stock_out(),
+                    'Schedule inventory': self.get_schedule_inventory(),
+                    'Total inventory': self.get_total_inventory(),
+                    'In stock': self.get_in_stock()
+                }
+    
 class Inventories:
     def __init__(self):
         self._inventory_table = []
@@ -90,148 +109,66 @@ class Inventories:
                     continue
                 if row["Product"] == '' or len(row['Product']) == 0 or row["Product"] is None: 
                     continue
-                tmp_opening_inventory = row["Opening inventory"] if row["Opening inventory"] != '' or row["Opening inventory"] == ' ' or row["Opening inventory"] is None else '0'
-                tmp_stock_in = row["Stock In"] if row["Stock In"] != '' or row["Stock In"] == ' ' or row["Stock In"] is None else '0'
-                tmp_stock_out = row["Stock out"] if row["Stock out"] != '' or row["Stock out"] == ' ' or row["Stock out"] is None else '0'
-                tmp_schedule_inventory = row["Schedule inventory"] if row["Schedule inventory"] != '' or row["Schedule inventory"] == ' ' or row["Schedule inventory"] is None else '0'
-                tmp_total_inventory = row["Total inventory quantity"] if row["Total inventory quantity"] != '' or row["Total inventory quantity"] == ' ' or row["Total inventory quantity"] is None else '0'
-                tmp_in_stock = row["In stock"] if row["In stock"] != '' or row["In stock"] == ' ' or row["In stock"] is None else '0'
+                tmp_opening_inventory = handle_data(row["Opening inventory"]) 
+                tmp_stock_in = handle_data(row["Stock In"])
+                tmp_stock_out = handle_data(row["Stock out"] )
+                tmp_schedule_inventory = handle_data(row["Schedule inventory"]) 
+                tmp_total_inventory = handle_data(row["Total inventory"]) 
+                tmp_in_stock = handle_data(row["In stock"]) 
                 self._inventory_table.append(
                     Inventory(row['Product'], tmp_opening_inventory, tmp_stock_in, 
                             tmp_stock_out, tmp_schedule_inventory, tmp_total_inventory, tmp_in_stock)
                 )
 
     def save_inventory_table(self):
-        self.merge_duplicate_products()
         self._inventory_table = self.get_sorted_inventory_by_stock('all')
-        with open("./data/inventory_table.csv", 'w', encoding='utf-8', newline='') as inventory_file:
-            fieldnames = ['Product', 'Opening inventory', 'Stock In', 'Stock out', 
-                        'Schedule inventory', 'Total inventory quantity', 'In stock']
-            writer = csv.DictWriter(inventory_file, fieldnames=fieldnames)
+        with open("./data/inventory_table.csv", 'w', encoding='utf-8', newline='') as inventory_file:            
+            writer = csv.DictWriter(inventory_file, fieldnames=get_inventory_title().keys())
             writer.writeheader()
-            writer.writerow({
-                    'Product': "产品名称",
-                    'Opening inventory': "初始库存数量",
-                    'Stock In': "入库总数量",
-                    'Stock out': "出库总数量",
-                    'Schedule inventory': "预定总数量",
-                    'Total inventory quantity': "库存总数量",
-                    'In stock': "可用库存"
-                })
+            writer.writerow(get_inventory_title())
             for item in self._inventory_table:
-                writer.writerow({
-                    'Product': item.get_product(),
-                    'Opening inventory': item.get_opening_inventory(),
-                    'Stock In': item.get_stock_in(),
-                    'Stock out': item.get_stock_out(),
-                    'Schedule inventory': item.get_schedule_inventory(),
-                    'Total inventory quantity': item.get_total_inventory(),
-                    'In stock': item.get_in_stock()
-                })
+                writer.writerow(item.to_dict())
 
-    def merge_duplicate_products(self):
-        """
-        检查库存中的重复产品名称，并合并数据。
-        Checks for duplicate product names in the inventory and merges their data.
-        """
-        merged_inventory = []
-        seen_products = {}
-
-        for item in self._inventory_table:
-            product_name = item.get_product()
-            if product_name not in seen_products:
-                # If it's the first time seeing this product, add it directly to the merged list
-                seen_products[product_name] = item
-            else:
-                # If it's a duplicate, merge data
-                existing_item = seen_products[product_name]
-                existing_item._stock_in = str(int(existing_item.get_stock_in()) + int(item.get_stock_in()))
-                existing_item._stock_out = str(int(existing_item.get_stock_out()) + int(item.get_stock_out()))
-                existing_item._opening_inventory = str(int(existing_item.get_opening_inventory()) + int(item.get_opening_inventory()))
-                existing_item._schedule_inventory = str(int(existing_item.get_schedule_inventory()) + int(item.get_schedule_inventory()))
-                # Update total inventory and in stock based on the merged data
-                existing_item._total_inventory = str(int(existing_item.get_total_inventory()) + int(item.get_total_inventory()))
-                existing_item._in_stock = str(int(existing_item.get_in_stock()) + int(item.get_in_stock()))
-
-        # Rebuild the inventory with merged items
-        self._inventory_table = list(seen_products.values())
-
-        print("重复的产品已合并。/ Duplicate products have been merged.")
+    def clear_inventory_table(self):
+        self._inventory_table.clear()
+        with open("./data/inventory_table.csv", 'w', encoding='utf-8', newline='') as inventory_file:
+            writer = csv.DictWriter(inventory_file, fieldnames=get_inventory_title().keys())
+            writer.writeheader()
+            writer.writerow(get_inventory_title())
 
     def get_product_data(self, product_name):
-        self.load_inventory_data()
         for product in self._inventory_table:
             if str(product.get_product()) == str(product_name):
                 # Product found, return its data
-                data = {
-                    'Product': product.get_product(),
-                    'Opening Inventory': product.get_opening_inventory(),
-                    'Stock In': product.get_stock_in(),
-                    'Stock Out': product.get_stock_out(),
-                    'Scheduled Inventory': product.get_schedule_inventory(),
-                    'Total Inventory': product.get_total_inventory(),
-                    'In Stock': product.get_in_stock(),
-                }
-                return data
+                return product.to_dict()
         # Product not found, return a message indicating so
-        return f"产品 '{product_name}' 未找到 / Product '{product_name}' not found."
+        return f"产品 '{product_name}' 未找到。"
 
-    def add_or_update_product(self, product, opening_inventory=None, stock_in=None, 
-                          stock_out=None, schedule_inventory=None, 
-                          total_inventory=None, in_stock=None):
-        # Validate each input to ensure it's either None or a valid number
-        inputs = [opening_inventory, stock_in, stock_out, schedule_inventory, total_inventory, in_stock]
-        if any(input is not None and not is_number(input) for input in inputs):
-            print("错误: 所有库存数量必须是有效的数字。 / Error: All inventory quantities must be valid numbers.")
-            return ("错误: 所有库存数量必须是有效的数字。 / Error: All inventory quantities must be valid numbers.")
-        
-        # Find the product in the inventory table
-        # existing_product = None
+    def add_or_update_product(self, product, stock_in=None, stock_out=None, schedule_inventory=None):
+        self.get_sorted_products_by_name()  # 首先排序库存信息
+        found = False
+
         for item in self._inventory_table:
-            if str(item.get_product()) == str(product):
-                existing_product = item
-                if opening_inventory is not None:
-                    existing_product._opening_inventory = opening_inventory
-                if stock_in is not None:
-                    existing_product._stock_in = stock_in
-                if stock_out is not None:
-                    existing_product._stock_out = stock_out
-                if schedule_inventory is not None:
-                    existing_product._schedule_inventory = schedule_inventory
-                if total_inventory is not None:
-                    existing_product._total_inventory = total_inventory
-                else:
-                    existing_product._total_inventory = str(int(existing_product._opening_inventory) + int(existing_product.stock_in) - int(existing_product.stock_out)) 
-                if in_stock is not None:
-                    existing_product._in_stock = in_stock
-                else: 
-                    existing_product._in_stock = str(int(existing_product.get_total_inventory()) - int(existing_product._schedule_inventory))
-                self.save_inventory_table()
-                print(f"Updated product '{product}'.")
-                return f"Updated product '{product}'."
+            if (item.get_product()) == product:
+                # 找到产品后，更新库存信息
+                found = True
+                item._opening_inventory = item.total_inventory 
+                item._stock_in = int(handle_data(stock_in))
+                item._stock_out = int(handle_data(stock_out))
+                item._schedule_inventory += int(handle_data(schedule_inventory))
+                
+                # 重新计算总库存和可用库存
+                item._total_inventory = item._opening_inventory + item._stock_in - item._stock_out
+                item._in_stock = item._total_inventory - item._schedule_inventory
+                break
 
-        if opening_inventory is None:
-            opening_inventory = 0
-        if stock_in is None:
-            stock_in = 0
-        if stock_out is None:
-            stock_out = 0
-        if schedule_inventory is None:
-            schedule_inventory = 0
-        if total_inventory is None:
-            total_inventory = opening_inventory + stock_in - stock_out 
-        if in_stock is None:
-            in_stock = total_inventory - schedule_inventory      
-        new_product = Inventory(product=str(product), opening_inventory=str(opening_inventory), 
-                                stock_in=str(stock_in), stock_out=str(stock_out), 
-                                schedule_inventory=str(schedule_inventory), 
-                                total_inventory=str(total_inventory), in_stock=str(in_stock))
-        self._inventory_table.append(new_product)
-        print(f"Added new product '{product}'.")
+        if not found:
+            # 如果没有找到产品，则添加新的产品记录
+            new_product = Inventory(product, 0, int(stock_in), int(stock_out), int(schedule_inventory), total_inventory=None, in_stock=None)
+            self._inventory_table.append(new_product)
 
-        # Optionally, save the updated inventory table back to the CSV file
         self.save_inventory_table()
-        return (f"Added new product '{product}'.")
+        return f"产品 '{product}' 的库存信息已更新。"
 
     def delete_product_by_name(self, product_name):
         """
@@ -252,11 +189,11 @@ class Inventories:
                 del self._inventory_table[i]
                 print(f"产品 '{product_name}' 已从库存中删除。/ Product '{product_name}' has been deleted from inventory.")
                 self.save_inventory_table()
-                return f"产品 '{product_name}' 已从库存中删除。/ Product '{product_name}' has been deleted from inventory."
+                return f"产品 '{product_name}' 已从库存中删除。"
         
         # If the product is not found, print a message indicating so
         print(f"未找到产品 '{product_name}'。/ Product '{product_name}' not found.")
-        return f"未找到产品 '{product_name}'。/ Product '{product_name}' not found."
+        return f"未找到产品 '{product_name}'"
 
     def get_sorted_products_by_name(self, sort_order='asc', number_of_items=None):
         """
@@ -310,8 +247,18 @@ class Inventories:
         elif sort_order == 'all':
             return sorted_inventory
         else:
-            print("指定的排序顺序无效。按最少库存先返回所有项目。/ Invalid sort order specified. Returning all items sorted by least stock first.")
+            print("指定的排序顺序无效。按最少库存先返回所有项目。")
             return sorted_inventory
+    
+    def get_product_list(self):
+        """
+        返回库存中所有产品的名称列表。
+        
+        Returns:
+        - A list of strings, where each string is a product name from the inventory.
+        """
+        product_list = [product.get_product() for product in self._inventory_table]
+        return product_list
     
     def get_all(self):
         self.load_inventory_data()

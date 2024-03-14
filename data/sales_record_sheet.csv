@@ -1,4 +1,4 @@
-Sale ID,Shipping Date,Time,Customer,Product,Outbound Quantity,Unit Price,Total Price,Seller,Payment
+Sale ID,Shipping Date,Time,Customer,Product,Stock Out,Unit Price,Total Price,Seller,Payment
 销售ID,出货日期,出货时间,客户,产品名称,出库数量,单价,总价,销售员,款项
 20240311005546614,11/03/2024,00:55:46.614,hello word,apple,202,40.5,8181.0,小紅,8080.0
 20240311012050391,11/03/2024,01:20:50.391,hello word,apple,202,40.5,8181.0,小紅,8080.0

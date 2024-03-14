@@ -59,8 +59,8 @@ class Customers:
                     continue
                 if row["Customer"] == '' or len(row['Customer']) == 0 or row["Customer"] is None: 
                     continue
-                tmp_payable = row["Payable"] if row["Payable"] != '' or row["Payable"] == ' ' or row['Payable'] is None else '0.0'
-                tmp_payment = row["Payment"] if row["Payment"] != '' or row["Payment"] == ' ' or row["Payment"] is None else '0.0'
+                tmp_payable = row["Payable"] if row["Payable"] != '' or row["Payable"] == ' ' or row['Payable'] is None else '0'
+                tmp_payment = row["Payment"] if row["Payment"] != '' or row["Payment"] == ' ' or row["Payment"] is None else '0'
                 tmp_debt = row["Debt"] if row["Debt"] != '' or row["Debt"] == ' ' or row["Debt"] is None else '0.0'
                 self._customer_payment_history.append(
                     Customer(row['Customer'], tmp_payable, tmp_payment, tmp_debt)
@@ -81,22 +81,72 @@ class Customers:
             for customer in self._customer_payment_history:
                 writer.writerow(customer.to_dict())
 
-    def add_customer(self, customer_name, payable, payment):
+    def clean_customers(self):
+        with open(self.filepath, 'w', encoding='utf-8', newline='') as customer_file:
+            fieldnames = ['Customer', 'Payable', 'Payment', 'Debt']
+            writer = csv.DictWriter(customer_file, fieldnames=fieldnames)
+            writer.writeheader()
+            if len(self._customer_payment_history) == 0 or self._customer_payment_history[0].get_customer() != "客户姓名":
+                writer.writerow({
+                    'Customer': "客户姓名",
+                    'Payable': "应付金额",
+                    'Payment': "实付金额",
+                    'Debt': "欠款金额"
+                })
+        self._customer_payment_history.clear()
+
+    def add_or_update_customer(self, customer_name, payable, payment):
         try:
-            payable_float = float(payable)
-            payment_float = float(payment)
+            if payable is not None:
+                payable = float(payable)
+            else: 
+                payable = 0
+            if payment is not None:
+                payment = float(payment)
+            else: 
+                payment = 0
         except ValueError:
-            return (f"Payment: {payment} or Payable {payable} is not a valid number. / 实付金额: {payment} 或 应付金额 {payable} 不是有效的数字")
+            return "错误：'应付金额'或'实付金额'不是有效的数字。"
+        
+        # 查找现有客户并更新
+        for customer in self._customer_payment_history:
+            if str(customer.get_customer()) == str(customer_name):
+                try:
+                    # 更新支付和债务信息
+                    existing_payable = float(customer.get_payable()) + payable
+                    existing_payment = float(customer.get_payment()) + payment
+                    debt = existing_payable - existing_payment
+                    customer._payable = str(existing_payable)
+                    customer._payment = str(existing_payment)
+                    customer._debt = str(debt)
 
-        customer = Customer(customer_name, payable_float, payment_float, payable_float - payment_float)
+                    self.save_customers()  # 保存更新
+                    return f"客户 '{customer_name}' 的信息已更新，当前债务为：{debt}。"
+                except ValueError as e:
+                    return f"更新失败：{str(e)}"
 
-        if customer.get_customer() != "客户姓名" and not self.customer_exists(customer.get_customer()):
-            self._customer_payment_history.append(customer)
-            self.save_customers()
-            return (f"Customer '{customer.get_customer()}' saved in the payment history. / 客户 '{customer.get_customer()}' 已保存在客户付款历史记录中\n\n目前欠款金额为 {customer.get_debt()} / Current debt is {customer.get_debt()}") 
-        else:
-            return (f"Customer '{customer.get_customer()}' already exists in the payment history. / 客户 '{customer.get_customer()}' 已经存在于客户付款历史记录中。")
+        # 如果未找到客户，则添加新客户
+        debt = payable - payment
+        new_customer = Customer(customer_name, str(payable), str(payment), str(debt))
+        self._customer_payment_history.append(new_customer)
+        self.save_customers()
+        return f"已添加新客户 '{customer_name}'，当前债务为：{debt}。"
 
+    def delete_customer(self, customer_name):
+        # 在列表中查找客户
+        for i, customer in enumerate(self._customer_payment_history):
+            if str(customer.get_customer()) == str(customer_name):
+                # 从列表中移除客户
+                del self._customer_payment_history[i]
+                print(f"客户 '{customer_name}' 已被删除。")
+                # 将更新后的客户列表保存回CSV或数据库
+                self.save_customers()
+                return True, f"客户 '{customer_name}' 已被删除。"
+        
+        # 未找到客户
+        print(f"未找到客户 '{customer_name}'。")
+        return False, f"未找到客户 '{customer_name}'。"
+    
     def customer_exists(self, customer_name):
         for customer in self._customer_payment_history:
             if str(customer.get_customer()) == str(customer_name):
@@ -121,52 +171,6 @@ class Customers:
                 customers_with_debt.append(customer)
                 flag = True
         return flag, customers_with_debt
-    
-    def update_customer_payment(self, customer_name, payable, new_payment):
-        # Validation for customer_name
-        if not isinstance(customer_name, str) or not customer_name.strip():
-            print("错误：客户名称无效。")
-            return ("错误：客户名称无效。")
-
-        # Validation for new_payment
-        try:
-            new_payment = float(new_payment)
-        except ValueError:
-            print("错误：支付金额无效。")
-            return ("错误：支付金额无效。")
-        
-        for customer in self._customer_payment_history:
-            if customer.get_customer() == customer_name:
-                # Assuming 'new_payment' is the amount the customer has just paid,
-                # and you want to update 'payment' and 'debt' accordingly.
-                try:
-                    # Convert existing data and new_payment to float for calculation
-                    existing_payment = float(customer.get_payment())
-                    existing_debt = float(customer.get_debt())
-                    updated_payment = existing_payment + new_payment
-                    updated_debt = existing_debt - new_payment
-
-                    # Update the customer's payment and debt information
-                    customer._payment = str(updated_payment)  # Assuming these attributes are stored as strings
-                    # customer._debt = str(max(updated_debt, 0))  # Ensure debt doesn't go below 0
-                    customer._debt = str(updated_debt)
-
-                    # Save the updated customer list to the CSV
-                    self.save_customers()
-                    print(f"Payment information updated for customer '{customer_name}'.")
-                    print(f"已为客户 '{customer_name}' 更新付款信息。")
-                    return (f"Payment information updated for customer '{customer_name}'. / 已为客户 '{customer_name}' 更新付款信息。")
-                except ValueError:
-                    # Handle case where conversion to float fails
-                    print("Error: Invalid payment or debt value. Update failed.")
-                    print("错误：无效的付款或债务值。更新失败。")
-                    return ("Error: Invalid payment or debt value. Update failed. / 错误：无效的付款或债务值。更新失败。")
-        # Customer does not exist, add as new customer
-        debt = max(payable - new_payment, 0)
-        new_customer = Customer(customer_name, str(payable), str(new_payment), str(debt))
-        self._customer_payment_history.append(new_customer)
-        print(f"已添加新客户 '{customer_name}' / New customer '{customer_name}' added.")
-        return (f"已添加新客户 '{customer_name}' / New customer '{customer_name}' added.")
 
     def get_customers_with_excess_payment(self):
         customers_with_excess_payment = []
@@ -182,27 +186,19 @@ class Customers:
         
         return flag, customers_with_excess_payment
 
-    def delete_customer(self, customer_name):
-        # Find the customer in the list
-        for i, customer in enumerate(self._customer_payment_history):
-            if str(customer.get_customer()) == str(customer_name):
-                # Remove the customer from the list
-                del self._customer_payment_history[i]
-                print(f"客户 '{customer_name}' 已被删除。 / Customer '{customer_name}' has been deleted.")
-                # Optionally, save the updated customer list back to the CSV or database
-                self.save_customers()
-                return True, (f"客户 '{customer_name}' 已被删除。 / Customer '{customer_name}' has been deleted.")
-        
-        # Customer not found
-        print(f"未找到客户 '{customer_name}'。 / Customer '{customer_name}' not found.")
-        return False, (f"未找到客户 '{customer_name}'。 / Customer '{customer_name}' not found.")
+    def get_customer_name_list(self):
+        """
+        Returns a list of all unique customer names from the payment history.
+        """
+        name_list = []
+        for customer in self._customer_payment_history:
+            if customer.get_customer() not in name_list:
+                name_list.append(customer.get_customer())
+        return name_list
 
     def get_all(self):
-        self.load_customer()
         return self._customer_payment_history
     
-    
-
 if __name__ == "__main__":
     print("TESTING: test the customer files----------------------------------------------------------------------------------")
     customer_manager = Customers()
@@ -236,9 +232,9 @@ if __name__ == "__main__":
               f"{customer.get_payment_chinese()}: {customer.get_payment()} AUD | "
               f"{customer.get_debt_chinese()}: {customer.get_debt()} AUD")
     
-    customer_manager.update_customer_payment("李四", 10, 0)
-    customer_manager.update_customer_payment("张三", 0, 505)
-    customer_manager.update_customer_payment("王八", 40, 0)
+    customer_manager.add_or_update_customer("李四", 10, 0)
+    customer_manager.add_or_update_customer("张三", 0, 505)
+    customer_manager.add_or_update_customer("王八", 40, 0)
     
     print("--客户支付的金额大于付款金额：")
     _, excess_payment_customers = customer_manager.get_customers_with_excess_payment()
