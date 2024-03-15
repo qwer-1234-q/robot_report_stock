@@ -11,7 +11,6 @@ def title_sales():
     return {
             'Sale ID': "销售ID",
             'Shipping Date': "出货日期",
-            'Time': "出货时间",
             'Customer': "客户",
             'Product': "产品名称",
             'Stock Out': "出库数量",
@@ -227,9 +226,10 @@ class Sales:
             if str(sale.get_sale_id()) != str(sale_id):
                 self.add_customer_and_inventories(sale.get_customer(), -sale.get_total_price(), -sale.get_payment(), sale.get_product(), -sale.get_stock_out())
                 del self._sales_record_sheet[i]
+                print(f"销售记录ID {sale_id} 已被删除。")
         # self._sales_record_sheet = [sale for sale in self._sales_record_sheet if str(sale.get_sale_id()) != str(sale_id)]
         self.save_sales_to_csv()  # 更新CSV文件
-        return (f"销售记录ID {sale_id} 已被删除。")
+        return f"销售记录ID {sale_id} 已被删除。"
 
     def find_sale_by_id(self, sale_id):
         """根据销售ID查找销售记录"""
@@ -240,10 +240,31 @@ class Sales:
     
     def find_sales_by_customer(self, customer_name):
         """根据客户名称查找该客户的所有购买记录"""
-        matching_sales = [sale for sale in self._sales_record_sheet if sale.get_customer() == customer_name]
-        if len(matching_sales) > 1:
-            return True, matching_sales
-        return False, matching_sales
+        matching_sales = []
+        flag = False
+        for sale in self._sales_record_sheet:
+            if sale.get_customer() == customer_name:
+                matching_sales.append(sale)
+                flag = True
+        return flag, matching_sales
+    
+    def get_seller_name_list(self):
+        sales_list = set()
+        self.load_sales()
+        for sale in self._sales_record_sheet:
+            if sale.get_seller() not in sales_list:
+                sales_list.add(sale.get_seller())
+        print(f"supplier list : {sales_list}")
+        return list(sales_list)
+    
+    def get_customer_name_list(self):
+        sales_list = set()
+        self.load_sales()
+        for sale in self._sales_record_sheet:
+            if sale.get_customer() not in sales_list:
+                sales_list.add(sale.get_customer())
+        print(f"customer list in sales: {sales_list}")
+        return list(sales_list)
     
     def get_all(self):
         self.load_sales()
@@ -254,5 +275,8 @@ if __name__ == "__main__":
     all_sales = sales_manager.get_all()
     
     print(sales_manager.find_sales_by_customer("小明"))
+    # print(sales_manager.find_sales_by_customer("Customer 3"))
+    _, sales_info = sales_manager.find_sales_by_customer("Customer 3")
+    for sale in sales_info:
+        print(f"{sale.get_product()}")
     print(sales_manager.find_sale_by_id("20240313013422266"))
-    

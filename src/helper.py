@@ -40,7 +40,7 @@ def is_number(value):
         return False
 
 def handle_data(value):
-    if value != '' or value == ' ' or value is None or len(str(value)) == 0:
+    if value == '' or value == ' ' or value is None or len(str(value)) == 0:
         return 0
     return value  
 

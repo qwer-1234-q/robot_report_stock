@@ -1,14 +1,25 @@
 import csv 
+from helper import handle_data
+
+def customer_title():
+    return {
+                'Customer': "客户姓名",
+                'Payable': "应付金额",
+                'Payment': "实付金额",
+                'Debt': "欠款金额"
+            }
 
 class Customer:
-    def __init__(self, customer, payable, payment, debt=None):
+    def __init__(self, customer, payable=0, payment=0, debt=None):
         self._customer = customer 
         self._customer_chinese = "客户姓名"
-        self._payable = payable 
+        self._payable = float(handle_data(payable))
         self._payable_chinese = "应付金额"
-        self._payment = payment 
+        self._payment = float(handle_data(payment)) 
         self._payment_chinese = "实付金额"
-        self._debt = debt 
+        if debt is not None:
+            self._debt = float(debt)
+        self._debt = self._payment - self._payable         
         self._debt_chinese = "欠款金额"
     
     def get_customer(self):
@@ -50,6 +61,7 @@ class Customers:
     
     def load_customer(self):
         self._customer_payment_history.clear()
+        self._customer_payment_history = []
         with open(self.filepath, encoding='utf-8') as customer_file:
             reader = csv.DictReader(customer_file)
             i = 0
@@ -59,41 +71,30 @@ class Customers:
                     continue
                 if row["Customer"] == '' or len(row['Customer']) == 0 or row["Customer"] is None: 
                     continue
-                tmp_payable = row["Payable"] if row["Payable"] != '' or row["Payable"] == ' ' or row['Payable'] is None else '0'
-                tmp_payment = row["Payment"] if row["Payment"] != '' or row["Payment"] == ' ' or row["Payment"] is None else '0'
-                tmp_debt = row["Debt"] if row["Debt"] != '' or row["Debt"] == ' ' or row["Debt"] is None else '0.0'
+                tmp_payable = float(handle_data(row['Payable']))
+                tmp_payment = float(handle_data(row["Payment"]))
+                tmp_debt = float(handle_data(row["Debt"]))
                 self._customer_payment_history.append(
                     Customer(row['Customer'], tmp_payable, tmp_payment, tmp_debt)
                 )
     
     def save_customers(self):
         with open(self.filepath, 'w', encoding='utf-8', newline='') as customer_file:
-            fieldnames = ['Customer', 'Payable', 'Payment', 'Debt']
-            writer = csv.DictWriter(customer_file, fieldnames=fieldnames)
+            writer = csv.DictWriter(customer_file, fieldnames=customer_title().keys())
             writer.writeheader()
             if self._customer_payment_history[0].get_customer() != "客户姓名":
-                writer.writerow({
-                    'Customer': "客户姓名",
-                    'Payable': "应付金额",
-                    'Payment': "实付金额",
-                    'Debt': "欠款金额"
-                })
+                writer.writerow(customer_title())
             for customer in self._customer_payment_history:
                 writer.writerow(customer.to_dict())
 
     def clean_customers(self):
         with open(self.filepath, 'w', encoding='utf-8', newline='') as customer_file:
-            fieldnames = ['Customer', 'Payable', 'Payment', 'Debt']
-            writer = csv.DictWriter(customer_file, fieldnames=fieldnames)
+            writer = csv.DictWriter(customer_file, fieldnames=customer_title.keys())
             writer.writeheader()
             if len(self._customer_payment_history) == 0 or self._customer_payment_history[0].get_customer() != "客户姓名":
-                writer.writerow({
-                    'Customer': "客户姓名",
-                    'Payable': "应付金额",
-                    'Payment': "实付金额",
-                    'Debt': "欠款金额"
-                })
+                writer.writerow(customer_title())
         self._customer_payment_history.clear()
+        self._customer_payment_history = []
 
     def add_or_update_customer(self, customer_name, payable, payment):
         try:
@@ -162,11 +163,12 @@ class Customers:
         """
         customers_with_debt = []
         flag = False
+        self.load_customer()
         for customer in self._customer_payment_history:
             if str(customer.get_debt()) == customer.get_debt_chinese() or customer.get_debt() == '':
                 continue
             customer._debt = float(customer.get_payable()) - float(customer.get_payment())
-            print(f"customer get debt {customer.get_debt()}")
+            print(f"customer {customer.get_customer()} get debt excess {float(customer.get_payable())} - {float(customer.get_payment())}= {customer.get_debt()}")
             if float(customer.get_debt()) > 0:  # Assuming debt is stored as a string that can be converted to float
                 customers_with_debt.append(customer)
                 flag = True
@@ -175,14 +177,15 @@ class Customers:
     def get_customers_with_excess_payment(self):
         customers_with_excess_payment = []
         flag = False
+        self.load_customer()
         for customer in self._customer_payment_history:
             if str(customer.get_debt()) == customer.get_debt_chinese() or customer.get_debt() == '':
                 continue
             customer._debt = float(customer.get_payable()) - float(customer.get_payment())
-            print(f"customer get debt excess {customer.get_debt()}")
+            print(f"customer {customer.get_customer()} get debt excess {float(customer.get_payable())} - {float(customer.get_payment())}= {customer.get_debt()}")
             if float(customer.get_debt()) < 0:
                 customers_with_excess_payment.append(customer)
-                flag = False
+                flag = True
         
         return flag, customers_with_excess_payment
 
@@ -190,13 +193,18 @@ class Customers:
         """
         Returns a list of all unique customer names from the payment history.
         """
-        name_list = []
+        name_list = set()
+        self.load_customer()
+        print("let search customer names")
         for customer in self._customer_payment_history:
+            print(f"{customer.get_customer()}")
             if customer.get_customer() not in name_list:
-                name_list.append(customer.get_customer())
-        return name_list
+                name_list.add(customer.get_customer())
+        print(name_list)
+        return list(name_list)
 
     def get_all(self):
+        self.load_customer()
         return self._customer_payment_history
     
 if __name__ == "__main__":
@@ -215,7 +223,6 @@ if __name__ == "__main__":
     for item in customer_manager.get_all():
         print(f"{item.get_customer_chinese()}: {item.get_customer()} | {item.get_payable_chinese()}: {item.get_payable()} AUD | {item.get_payment_chinese()} : {item.get_payment()} AUD | {item.get_debt_chinese()}: {item.get_debt()} AUD")
     
-
     search_name = "Customer Name"
 
     if customer_manager.customer_exists(search_name):
@@ -248,3 +255,4 @@ if __name__ == "__main__":
     customer_name_to_delete = "John Doe"  # Example customer name
     customer_manager.delete_customer(customer_name_to_delete)
     # customer_manager.delete_customer("张三")
+    print(customer_manager.get_customer_name_list())

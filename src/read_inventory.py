@@ -139,10 +139,10 @@ class Inventories:
     def get_product_data(self, product_name):
         for product in self._inventory_table:
             if str(product.get_product()) == str(product_name):
-                # Product found, return its data
-                return product.to_dict()
+                print(f"We got product {product_name}")
+                return True, [product]
         # Product not found, return a message indicating so
-        return f"产品 '{product_name}' 未找到。"
+        return False, f"产品 '{product_name}' 未找到。"
 
     def add_or_update_product(self, product, stock_in=None, stock_out=None, schedule_inventory=None):
         self.get_sorted_products_by_name()  # 首先排序库存信息
@@ -152,7 +152,7 @@ class Inventories:
             if (item.get_product()) == product:
                 # 找到产品后，更新库存信息
                 found = True
-                item._opening_inventory = item.total_inventory 
+                item._opening_inventory = item._total_inventory 
                 item._stock_in = int(handle_data(stock_in))
                 item._stock_out = int(handle_data(stock_out))
                 item._schedule_inventory += int(handle_data(schedule_inventory))
@@ -164,6 +164,7 @@ class Inventories:
 
         if not found:
             # 如果没有找到产品，则添加新的产品记录
+            stock_in, stock_out, schedule_inventory = 0, 0, 0
             new_product = Inventory(product, 0, int(stock_in), int(stock_out), int(schedule_inventory), total_inventory=None, in_stock=None)
             self._inventory_table.append(new_product)
 
@@ -257,7 +258,12 @@ class Inventories:
         Returns:
         - A list of strings, where each string is a product name from the inventory.
         """
-        product_list = [product.get_product() for product in self._inventory_table]
+        self.load_inventory_data()
+        product_list = [ ]
+        for product in self._inventory_table:
+            if product.get_product() not in product_list:
+                product_list.append(str(product.get_product()))
+        print(f"the product list is\n{product_list}")
         return product_list
     
     def get_all(self):

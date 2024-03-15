@@ -72,12 +72,12 @@ class Warehousing:
     
     def to_dict(self):
         return {
-                    'Arrival Date': item.get_arrival_date(),
-                    'Supplier': item.get_supplier(),
-                    'Product': item.get_product(),
-                    'Stock In': item.get_stock_in(),
-                    'Unit Price': item.get_unit_price(),
-                    'Total Price': item.get_total_price()
+                    'Arrival Date': self.get_arrival_date(),
+                    'Supplier': self.get_supplier(),
+                    'Product': self.get_product(),
+                    'Stock In': self.get_stock_in(),
+                    'Unit Price': self.get_unit_price(),
+                    'Total Price': self.get_total_price()
                 }
 
 class Warehousing_read:
@@ -95,8 +95,13 @@ class Warehousing_read:
                 if i == 0:
                     i = 1
                     continue
+                tmp_arrival = row['Arrival Date']
+                if " " in tmp_arrival:
+                    tmp_arrival.replace(" ")
+                if "\n" in tmp_arrival:
+                    tmp_arrival.replace("\n")
                 self._warehousing_table.append(
-                   Warehousing(row['Arrival Date'], row['Supplier'], row['Product'],
+                   Warehousing(tmp_arrival, row['Supplier'], row['Product'],
                             row['Stock In'], row['Unit Price'], row['Total Price']) 
                 )
 
@@ -114,7 +119,7 @@ class Warehousing_read:
         """将排序后的数据保存到CSV文件"""
         self.sort_records()
         with open(self._filepath, 'w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=warehousing_titles.keys())
+            writer = csv.DictWriter(csvfile, fieldnames=warehousing_titles().keys())
             writer.writeheader()
             writer.writerow(warehousing_titles())
             for item in self._warehousing_table:
@@ -124,7 +129,7 @@ class Warehousing_read:
         self._warehousing_table.clear()
         self._warehousing_table = []
         with open(self._filepath, 'w', newline='', encoding='utf-8') as csvfile:
-            writer = csv.DictWriter(csvfile, fieldnames=warehousing_titles.keys())
+            writer = csv.DictWriter(csvfile, fieldnames=warehousing_titles().keys())
             writer.writeheader()
             writer.writerow(warehousing_titles())
 
@@ -146,7 +151,7 @@ class Warehousing_read:
         new_record = Warehousing(arrival_date, supplier, product, stock_in, unit_price, total_price)
         self._warehousing_table.append(new_record)
         self.save_to_csv()
-        inventories_manager.add_or_update_product(self, product=product, stock_in=stock_in, stock_out=0, schedule_inventory=None)
+        inventories_manager.add_or_update_product(product=product, stock_in=stock_in, stock_out=0, schedule_inventory=None)
         return f"{arrival_date} {supplier} {product} {stock_in} 已经成功录入。"
     
     def delete_warehousing_record(self, arrival_date, supplier, product):
@@ -166,7 +171,7 @@ class Warehousing_read:
             if (record.get_arrival_date() == arrival_date and 
                 record.get_supplier() == supplier and 
                 record.get_product() == product):
-                inventories_manager.add_or_update_product(self, product=product, stock_in=0, stock_out=record.get_stock_in(), schedule_inventory=None)
+                inventories_manager.add_or_update_product(product=product, stock_in=0, stock_out=record.get_stock_in(), schedule_inventory=None)
                 del self._warehousing_table[i]
                 # 假设每个到货日期、供应商和产品名称的组合是唯一的，找到后即删除
                 print(f"记录已被删除。/ Record has been deleted.")
@@ -191,9 +196,9 @@ class Warehousing_read:
                 if new_quantity is not None:
                     new_quantity = int(new_quantity)
                     if record._stock_in > new_quantity:
-                        inventories_manager.add_or_update_product(self, product=product, stock_in=0, stock_out=record._stock_in - new_quantity, schedule_inventory=None)
+                        inventories_manager.add_or_update_product(product=product, stock_in=0, stock_out=record._stock_in - new_quantity, schedule_inventory=None)
                     else: 
-                        inventories_manager.add_or_update_product(self, product=product, stock_in=new_quantity-record._stock_in, stock_out=0, schedule_inventory=None)
+                        inventories_manager.add_or_update_product(product=product, stock_in=new_quantity-record._stock_in, stock_out=0, schedule_inventory=None)
                     record._stock_in = int(new_quantity)  # 直接更新入库数量
                     
                 if unit_price is not None:
@@ -212,10 +217,18 @@ class Warehousing_read:
     def find_by_date(self, date_str):
         """根据到货日期查找入库记录"""
         # 将字符串日期转换为datetime对象以便比较
-        target_date = datetime.strptime(date_str, "%d/%m/%Y")
+        # target_date = datetime.strptime(date_str, "%d/%m/%Y")
+        flag, target_date = check_shipping_date(date_str)
         # 查找所有与给定日期匹配的记录
-        matching_records = [item for item in self._warehousing_table if datetime.strptime(item.get_arrival_date(), "%d/%m/%Y") == target_date]
-        return matching_records
+        flag = False 
+        matching_records = []
+        print(f"find by date {target_date}")
+        for item in self._warehousing_table:
+            if datetime.strptime(item.get_arrival_date(), "%d/%m/%Y") == target_date:
+                matching_records.append(item)
+                flag = True
+        
+        return flag, matching_records
     
     def find_by_supplier(self, supplier_name):
         """根据供应商查找入库记录"""
@@ -225,10 +238,32 @@ class Warehousing_read:
     
     def get_supplier_list(self): 
         suppliers = []
-        for record in self.warehousing_records:
-            suppliers.append(record.get_supplier())  # 假设每条仓储记录都有一个 'supplier' 属性
-        return suppliers
+        flag = False
+        self.load_warehousing()
+        for record in self._warehousing_table:
+            if record.get_supplier() not in suppliers:
+                flag = True
+                suppliers.append(record.get_supplier())  
+        print(f"warehousing supplier:\n{suppliers}")
+        return flag, suppliers
 
+    def get_product_list(self):
+        """
+        返回库存中所有产品的名称列表。
+        
+        Returns:
+        - A list of strings, where each string is a product name from the inventory.
+        """
+        self.load_warehousing()
+        product_list = [ ]
+        flag = False
+        for product in self._warehousing_table:
+            if product.get_product() not in product_list:
+                product_list.append(str(product.get_product()))
+                flag = True
+        print(f"the product list is\n{product_list}")
+        return flag, product_list
+    
     def get_all(self):
         self.load_warehousing()
         return self._warehousing_table
@@ -266,8 +301,8 @@ if __name__ == "__main__":
     
     print("\n")
     print("-"*50)
-    date_str = "12/03/2024"  # 示例日期，根据需要更改
-    matching_records = warehousing_manager.find_by_date(date_str)
+    date_str = "15/02/2024"  
+    flag, matching_records = warehousing_manager.find_by_date(date_str)
     # 打印找到的记录
     for item in matching_records:
         print(f"{item.get_arrival_date_chinese()}: {item.get_arrival_date()} | {item.get_supplier_chinese()}: {item.get_supplier()} | {item.get_product_chinese()}: {item.get_product()} | {item.get_stock_in_chinese()}: {item.get_stock_in()} | {item.get_unit_price_chinese()}: {item.get_unit_price()} | {item.get_total_price_chinese()}: {item.get_total_price()}")
