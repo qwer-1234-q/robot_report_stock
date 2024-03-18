@@ -1,6 +1,8 @@
+import logging
 import telegram
 from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler, CallbackQueryHandler
+from telebot import types
 
 # 导入之前定义的类
 from read_sales import Sales
@@ -10,6 +12,7 @@ from read_customer import Customers
 
 from datetime import datetime 
 from user_handle_message import send_long_text, cancel, build_date_keyboard, build_menu
+from helper import check_shipping_date
 
 # Telegram Bot Token
 TOKEN = '6487583852:AAGH3YlPRpfuOtLt-GlWvyI4Ss-B1lxOdtA'
@@ -20,156 +23,216 @@ warehousing_manager = Warehousing_read()
 inventory_manager = Inventories()
 customers_manager = Customers()
 
-SALE_CUSTOMER, MANUAL_INPUT_CUSTOMER, SALE_CONFIRM_DATE, SALE_ENTER_CUSTOM_DATE = range(4) 
-SALE_PRODUCT, SALE_SHIPPING_DATE, SALE_STOCK_OUT, SALE_UNIT_PRICE, SALE_SELLER = range(5) 
-SALE_PAYMENT, SALE_CONFIRMATION = range(2)
+RECORD_OUT_CUSTOMER, RECORD_OUT_PRODUCT, RECORD_OUT_SHIPPING_DATE, RECORD_OUT_STOCK_OUT, RECORD_OUT_UNIT_PRICE, RECORD_OUT_STAFF, RECORD_OUT_PAYMENT, RECORD_OUT_CONFIRMATION = range(8)
+MANUAL_INPUT_CUSTOMER, MANUAL_SOLD_PRODUCT, MANUAL_SOLD_SHIPPING_DATE, MANUAL_SOLD_STAFF = range(4)
 
-def sale_start(update: Update, context: CallbackContext) -> int:
-    # 获取已知的客户列表
-    customer_list = customers_manager.get_customer_name_list()
-    # 创建客户名的按钮列表
+def start_record_out(update: Update, context: CallbackContext) -> int:
+    customer_list = customers_manager.get_customer_name_list()  
+    for name in sales_manager.get_customer_name_list():
+        if name not in customer_list:
+            customer_list.append(name)
+    customer_list.sort()
+    logging.info(f"customer list is {customer_list}")
     buttons = [InlineKeyboardButton(name, callback_data=name) for name in customer_list]
-    # 添加一个特殊按钮用于手动输入
-    buttons.append(InlineKeyboardButton("手动输入客户名", callback_data="manual_input_customer"))
-    # 将按钮列表分为一行一行
-    keyboard = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
-    # 创建 InlineKeyboardMarkup 对象
-    reply_markup = InlineKeyboardMarkup(keyboard)
+    # buttons.append(InlineKeyboardButton("手动输入", callback_data="mannual_input_customer"))
+    reply_markup = InlineKeyboardMarkup(build_menu(buttons, 4))
+    # message = '请选择或输入客户名字：\n（在选择了手动输入后，如果出现回复框，则需要你自己自主输入客户名字'
+    message = '请选择或输入客户名字'
+    update.message.reply_text(message, reply_markup=reply_markup)
+    # context.bot.send_message(chat_id=update.message.chat_id, text=message)
+    logging.info("start to add a sale record")
+    return RECORD_OUT_CUSTOMER
 
-    # 检查是否是回调查询的上下文
-    if update.callback_query:
-        query = update.callback_query
-        query.answer()
-        query.edit_message_text(text='请选择客户名或手动输入：', reply_markup=reply_markup)
-    else:
-        # 发送消息并附带按钮
-        update.message.reply_text('请选择客户名或手动输入：', reply_markup=reply_markup)
-
-    return SALE_CUSTOMER
-
+def record_out_customer(update: Update, context: CallbackContext) -> int:
+    # context.user_data['out_customer'] = update.message.text
+    query = update.callback_query
+    query.answer()
+    if query.data == "mannual_input_customer":
+        message = "请输入客户名："
+        context.bot.send_message(chat_id=query.message.chat_id, text=message)
+        # query.edit_message_text(message)        
+        return MANUAL_INPUT_CUSTOMER
+    context.user_data['out_customer'] = query.data    
+    product_list = inventory_manager.get_product_list()
+    if len(product_list) == 0:
+        update.message.reply_text("当前库存中没有产品。")
+        return ConversationHandler.END
+    product_list.sort()
+    keyboard = [InlineKeyboardButton(name, callback_data=name) for name in product_list]
+    # keyboard.append(InlineKeyboardButton("手动输入", callback_data="mannual_input_product"))
+    reply_markup = InlineKeyboardMarkup(build_menu(keyboard, 4))
+    message = f"您选择的客户名是：{query.data}。\n请选择产品名称:"
+    # context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    query.edit_message_text(message, reply_markup=reply_markup)
+    return RECORD_OUT_PRODUCT
 
 def manual_input_customer(update: Update, context: CallbackContext) -> int:
     customer_name = update.message.text
-    context.user_data['sale_customer'] = customer_name
-    # 接下来的逻辑，比如让用户选择产品
-    update.message.reply_text(f"您输入的客户名是：{customer_name}，请继续...")
-    update.message.reply_text("请选择你想要的产品：")
-    return display_product_options(update, context)
+    context.user_data['out_customer'] = customer_name
 
-def sale_customer(update: Update, context: CallbackContext) -> str:
+    product_list = inventory_manager.get_product_list()
+    if len(product_list) == 0:
+        update.message.reply_text("当前库存中没有产品。")
+        return ConversationHandler.END
+    product_list.sort()
+    keyboard = [InlineKeyboardButton(name, callback_data=name) for name in product_list]
+    # keyboard.append(InlineKeyboardButton("手动输入", callback_data="mannual_input_product"))
+    reply_markup = InlineKeyboardMarkup(build_menu(keyboard, 4))
+    message = f"您输入的客户名是：{customer_name}。请输入产品信息："
+    update.message.reply_text(message, reply_markup=reply_markup)
+    # context.bot.send_message(chat_id=update.message.chat_id, text=message, reply_markup=reply_markup)
+    return RECORD_OUT_PRODUCT
+
+def record_out_product(update: Update, context: CallbackContext) -> int:
+    # context.user_data['out_product'] = update.message.text
     query = update.callback_query
     query.answer()
-    selected_customer = query.data
-    print(f"user have to select the customer or input the customer")
-    if selected_customer == "manual_input_customer":
-        context.bot.send_message(chat_id=update.effective_chat.id, text="请输入客户名：")
-        return MANUAL_INPUT_CUSTOMER
-    else:
-        context.user_data['sale_customer'] = selected_customer
-        display_product_options(update, context)
-     
-def display_product_options(update: Update, context: CallbackContext) -> int:
-    products = inventory_manager.get_product_list() 
-    buttons = [InlineKeyboardButton(product, callback_data=product) for product in products]
-    keyboard = InlineKeyboardMarkup(build_menu(buttons, n_cols=2)) 
-    query = update.callback_query
-    if update.callback_query:
-        query = update.callback_query
-        try:
-            query.edit_message_text(text="请选择产品名称：", reply_markup=keyboard)
-        except telegram.error.BadRequest as e:
-            if "Message is not modified" in str(e):
-                print(f"ERR0R - display_product_options: {e}")
-    else:
-        # 直接从其他状态跳转而来，发送新消息
-        update.message.reply_text(text="请选择产品名称：", reply_markup=keyboard)
-
-    return SALE_CONFIRM_DATE
-
-def sale_product(update: Update, context: CallbackContext) -> str:
-    query = update.callback_query
-    query.answer()
-    selected_product = query.data
-    context.user_data['sale_product'] = selected_product
-    # 默认设置为今日日期
+    logging.info(f"record out product is {query.data}")
+    # if str(query.data) in ["mannual_input_product"]:
+    #     message = "请输入产品信息："
+    #     # query.edit_message_text(message)
+    #     context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    #     return MANUAL_SOLD_PRODUCT
+    context.user_data['out_product'] = query.data
     today = datetime.now().strftime('%d/%m/%Y')
-    context.user_data['sale_shipping_date'] = today
-    # 提供选项让用户确认或更改日期
+    context.user_data['out_shipping_date'] = today
     keyboard = [
         [InlineKeyboardButton("确认今日日期", callback_data='confirm_today')],
         [InlineKeyboardButton("输入新日期", callback_data='enter_custom')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    query.edit_message_text(text=f"已选择产品：{selected_product}\n当前出货日期默认为今日：{today}。确认或更改？", reply_markup=reply_markup)
-    return SALE_CONFIRM_DATE
+    message = f"你输入的产品是 {context.user_data['out_product']} \n当前出货日期默认为今日：{today}。确认或更改？\nn（在选择了手动输入后，如果出现回复框，则需要你自己自主输入日期）"
+    # message = f"你选择的产品是 {context.user_data['out_product']} \n请输入出货日期(格式DD/MM/YYYY):"
+    context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    query.edit_message_text(text=message, reply_markup=reply_markup)
+    return RECORD_OUT_SHIPPING_DATE
 
-def sale_confirm_or_change_date(update: Update, context: CallbackContext) -> int:
-    query = update.callback_query
-    query.answer()
-    if query.data == 'confirm_today':
-        # 用户确认日期，继续流程
-        selected_date = context.user_data['sale_shipping_date']
-        query.edit_message_text(text=f"已确认出货日期：{selected_date}\n请输入出库数量：")
-        return SALE_STOCK_OUT
-    elif query.data == 'enter_custom':
-        query.edit_message_text(text="请输入新的日期（格式YYYY-MM-DD）：")
-        return SALE_ENTER_CUSTOM_DATE
-
-def sale_enter_custom_date(update: Update, context: CallbackContext) -> int:
-    text = update.message.text
-    context.user_data['sale_shipping_date'] = text
-    update.message.reply_text(f"已设置出货日期为：{text}。请输入出库数量：")
-    return SALE_STOCK_OUT
-
-# def sale_shipping_date(update: Update, context: CallbackContext) -> str:
-#     update.message.reply_text('请选择出货日期：', reply_markup=build_date_keyboard())
-#     return SALE_STOCK_OUT  # 保持状态，直到用户选择日期
-
-# def date_selected(update: Update, context: CallbackContext) -> int:
-#     query = update.callback_query
-#     query.answer()
-#     selected_date = query.data.replace('date_', '')
-#     context.user_data['sale_shipping_date'] = selected_date
-#     query.edit_message_text(text=f"已选择日期：{selected_date}\n请输入出库数量：")
-#     return SALE_STOCK_OUT
-
-def sale_stock_out(update: Update, context: CallbackContext) -> str:
-    context.user_data['sale_stock_out'] = update.message.text
-    update.message.reply_text('请输入单价:')
-    return SALE_UNIT_PRICE
-
-def sale_unit_price(update: Update, context: CallbackContext) -> int:
-    context.user_data['sale_unit_price'] = update.message.text
-    # 假设已经有一个销售员列表
-    seller_list = sales_manager.get_seller_name_list()  # 假设这个方法可以提供销售员的名单
-    buttons = [InlineKeyboardButton(seller, callback_data=seller) for seller in seller_list]
-    keyboard = [buttons[i:i + 2] for i in range(0, len(buttons), 2)]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text('请选择销售员：', reply_markup=reply_markup)
-    return SALE_SELLER
-
-def sale_seller(update: Update, context: CallbackContext) -> int:
-    query = update.callback_query
-    query.answer()
-    selected_seller = query.data
-    context.user_data['sale_seller'] = selected_seller
-    query.edit_message_text(text=f"已选择销售员：{selected_seller}\n请输入款项：")
-    return SALE_PAYMENT
-
-def sale_payment(update: Update, context: CallbackContext) -> str:
-    context.user_data['sale_payment'] = update.message.text
-    # 根据收集到的信息生成确认信息
-    confirmation_message = generate_new_sale_confirmation_message(context.user_data)
-    # 创建确认和取消的按钮
+def manual_sold_product(update: Update, context: CallbackContext) -> int:
+    context.user_data['out_product'] = update.message.text
+    today = datetime.now().strftime('%d/%m/%Y')
+    context.user_data['out_shipping_date'] = today
     keyboard = [
-        [InlineKeyboardButton("确认", callback_data='confirm')],
-        [InlineKeyboardButton("重新输入", callback_data='reenter')]
+        [InlineKeyboardButton("确认今日日期", callback_data='confirm_today')],
+        [InlineKeyboardButton("输入新日期", callback_data='enter_custom')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    # 发送带有按钮的确认信息
-    update.message.reply_text(confirmation_message, reply_markup=reply_markup)
-    return SALE_CONFIRMATION
+    message = f"你输入的产品是 {context.user_data['out_product']} \n当前出货日期默认为今日：{today}。确认或更改？"
+    # context.bot.send_message(chat_id=update.message.chat_id, text=message, reply_markup=reply_markup)
+    update.message.reply_text(message, reply_markup=reply_markup)
+    return RECORD_OUT_SHIPPING_DATE
 
+def manual_sold_shipping_date(update: Update, context: CallbackContext) -> int:
+    text = update.message.text
+    logging.info(f"sold manual")
+    try:
+        # Attempt to convert the text input into a datetime object
+        # custom_date = datetime.strptime(text, '%d/%m/%Y')
+        flag, custom_date = check_shipping_date(text)
+        if flag:
+            context.user_data['out_shipping_date'] = custom_date
+            message = f"已确认出货日期：{context.user_data['out_shipping_date']}\n请输入出库数量:"
+            update.message.reply_text(message)
+            context.bot.send_message(chat_id=update.message.chat_id, text=message)
+            return RECORD_OUT_STOCK_OUT
+        else: 
+            raise ValueError 
+    except ValueError:
+        # If the date format is incorrect, prompt the user to try again
+        update.message.reply_text("日期格式不正确，请使用DD/MM/YYYY格式重新输入：")
+        return MANUAL_SOLD_SHIPPING_DATE
+
+def record_out_shipping_date(update: Update, context: CallbackContext) -> int:
+    # context.user_data['out_shipping_date'] = update.message.text
+    query = update.callback_query
+    query.answer()
+
+    logging.info(f"sold confirm or change date")
+    if query.data == 'enter_custom':
+        message = f"请输入出货日期(格式DD/MM/YYYY):"
+        query.edit_message_text(text=message)
+        context.bot.send_message(chat_id=query.message.chat_id, text=message)
+        return MANUAL_SOLD_SHIPPING_DATE
+    # else:
+    # update.message.reply_text('请输入出库数量:')
+    message = f"已确认出货日期：{context.user_data['out_shipping_date']}\n请输入出库数量："
+    query.edit_message_text(text=message)
+    context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    return RECORD_OUT_STOCK_OUT
+
+def record_out_stock_out(update: Update, context: CallbackContext) -> int:
+    try:
+        number = int(update.message.text)
+        if number < 0:
+            raise ValueError 
+        context.user_data['out_stock_out'] = int(update.message.text)
+        update.message.reply_text('请输入单价:')
+        return RECORD_OUT_UNIT_PRICE
+    except ValueError:
+        update.message.reply_text("请输入有效的正数作为出库数量:")
+        return RECORD_OUT_STOCK_OUT
+    
+
+def record_out_unit_price(update: Update, context: CallbackContext) -> int:
+    try: 
+        number = float(update.message.text)
+        if number < 0:
+            raise ValueError
+        context.user_data['out_unit_price'] = float(update.message.text)
+        message = '请输入销售员:'
+        staff_list = sales_manager.get_staff_name_list() 
+        buttons = [InlineKeyboardButton(staff, callback_data=staff) for staff in staff_list]
+        # buttons.append(InlineKeyboardButton("手动输入销售员名字", callback_data="manual_staff"))
+        reply_markup = InlineKeyboardMarkup(build_menu(buttons, 2))
+        update.message.reply_text(message, reply_markup=reply_markup)
+        return RECORD_OUT_STAFF
+    except ValueError:
+        update.message.reply_text("请输入有效的正数作为单价:")
+        return RECORD_OUT_UNIT_PRICE
+
+def record_out_staff(update: Update, context: CallbackContext) -> int:
+    # context.user_data['out_staff'] = update.message.text
+    # update.message.reply_text('请输入款项:')
+    query = update.callback_query
+    query.answer()
+    context.user_data['out_staff'] = query.data 
+    # if context.user_data['out_staff'] == "manual_staff":
+    #     message = "请输入销售员名字"
+    #     context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    #     return MANUAL_SOLD_STAFF
+    message = f"{context.user_data['out_staff']} 销售员 \n请输入款项:"
+    context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    return RECORD_OUT_PAYMENT
+
+def manual_input_staff(update: Update, context: CallbackContext) -> int:
+    selected_staff = update.message.text
+    logging.info(f"manual input staff {selected_staff}")
+    context.user_data['sale_staff'] = selected_staff
+    update.message.reply_text(text=f"已输入销售员：{selected_staff}\n请输入款项：")
+    return RECORD_OUT_PAYMENT
+
+def record_out_payment(update: Update, context: CallbackContext) -> int:
+    try:
+        number = float(update.message.text)
+        if number < 0:
+            raise ValueError
+        context.user_data['out_payment'] = float(update.message.text)
+        update.message.reply_text('感谢您的输入，正在处理...')
+        response = sales_manager.add_sale(
+            customer=context.user_data['out_customer'], 
+            product=context.user_data['out_product'], 
+            shipping_date=context.user_data['out_shipping_date'], 
+            stock_out=context.user_data['out_stock_out'], 
+            unit_price=context.user_data['out_unit_price'], 
+            staff=context.user_data['out_staff'], 
+            payment=context.user_data['out_payment']
+        )
+        context.bot.send_message(chat_id=update.message.chat_id, text=response)
+        update.message.reply_text(response) 
+        return ConversationHandler.END
+    except ValueError:
+        update.message.reply_text("请输入有效的正数作为单价:")
+        return RECORD_OUT_PAYMENT
+    
 # 生成确认信息的辅助函数
 def generate_new_sale_confirmation_message(user_data):
     message = "请确认以下信息：\n"
@@ -178,42 +241,11 @@ def generate_new_sale_confirmation_message(user_data):
     sale_shipping_date = user_data.get('sale_shipping_date', '未提供')
     sale_stock_out = user_data.get('sale_stock_out', '未提供')
     sale_unit_price = user_data.get('sale_unit_price', '未提供')
-    sale_seller = user_data.get('sale_seller', '未提供')
+    sale_staff = user_data.get('sale_staff', '未提供')
     sale_payment = user_data.get('sale_payment', '未提供')
 
     message += f"客户名：{sale_customer}\n产品名称：{sale_product}\n"
     message += f"出货日期：{sale_shipping_date}\n出库数量：{sale_stock_out}\n"
-    message += f"单价：{sale_unit_price}\n销售员：{sale_seller}\n款项：{sale_payment}\n"
+    message += f"单价：{sale_unit_price}\n销售员：{sale_staff}\n款项：{sale_payment}\n"
     message += "\n请回复 'yes' 确认，回复 'no' 重新输入。"
     return message
-
-# 提交销售记录的辅助函数
-def submit_sale_record(user_data):
-    customer = user_data['sale_customer']
-    product = user_data['sale_product']
-    shipping_date = user_data['sale_shipping_date']
-    stock_out = int(user_data['sale_stock_out'])
-    unit_price = float(user_data['sale_unit_price'])
-    seller = user_data['sale_seller']
-    payment = float(user_data['sale_payment'])
-    sales_manager.add_sale(customer, product, shipping_date, stock_out, unit_price, seller, payment)
-
-# 确认信息处理
-def sale_confirmation(update: Update, context: CallbackContext) -> int:
-    # 获取用户的确认信息
-    query = update.callback_query
-    query.answer()
-    # 根据按钮的回调数据处理用户的选择
-    if query.data == 'confirm':
-        # 用户确认了信息，处理销售记录的添加逻辑
-        try:
-            sales_msg = submit_sale_record(context.user_data)
-            query.edit_message_text(text=sales_msg)
-        except KeyError as e:
-            query.edit_message_text(text="销售信息不完整，请重新开始。")
-        return ConversationHandler.END
-    elif query.data == 'reenter':
-        # 用户选择重新输入，指引用户从头开始
-        context.bot.send_message(chat_id=update.effective_chat.id, text="请重新开始输入销售信息。")
-        return sale_start(update, context) 
-    

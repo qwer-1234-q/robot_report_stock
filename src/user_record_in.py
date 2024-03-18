@@ -1,5 +1,5 @@
 import telegram
-from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Bot, Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, ReplyKeyboardRemove
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext, ConversationHandler, CallbackQueryHandler
 import logging
 
@@ -12,8 +12,8 @@ from read_customer import Customers
 from datetime import datetime 
 
 ### the message handle features from other files
-from user_handle_message import cancel, build_date_keyboard, build_menu
-
+from user_handle_message import cancel, build_menu
+from helper import check_shipping_date
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
@@ -23,179 +23,140 @@ warehousing_manager = Warehousing_read()
 inventory_manager = Inventories()
 customers_manager = Customers()
 
-(WAREHOUSING_ARRIVAL_DATE, WAREHOUSING_SUPPLIER, WAREHOUSING_UNIT_PRICE) = range(3)
-(CHOOSE_SUPPLIER_METHOD, MANUAL_INPUT_SUPPLIER, SUPPLIER_PRODUCT) = range(3)
-(CHOOSE_PRODUCT_METHOD, MANUAL_INPUT_PRODUCT, WAREHOUSING_STOCK_IN) = range(3)
-(MANUAL_INPUT_ARRIVAL_DATE, WAREHOUSING_TOTAL_PRICE, SUPPLIER_CONFIRMATION) = range(3)
+RECORD_IN_ARRIVAL_DATE, RECORD_IN_SUPPLIER, RECORD_IN_PRODUCT, RECORD_IN_STOCK_IN, RECORD_IN_UNIT_PRICE = range(5)
+MANUAL_RECORD_IN_ARRIVAL_DATE = range(1)
 
-def start_add_warehousing(update: Update, context: CallbackContext) -> int:
-    update.message.reply_text("请选择到货日期:", reply_markup=build_date_keyboard())
-    logging.info("start_add_warehousing")
-    return WAREHOUSING_ARRIVAL_DATE
-
-def arrival_date(update: Update, context: CallbackContext) -> int:
-    query = update.callback_query
-    query.answer()
-    logging.info(f"warehousing arrival date input, {query.data}")
-
-    if query.data == 'enter_custom_date':
-        query.message.reply_text("请输入自定义到货日期（格式DD/MM/YYYY）:")
-        return MANUAL_INPUT_ARRIVAL_DATE
-    context.user_data['arrival_date'] = datetime.now().strftime('%d/%m/%Y')
-    query.message.reply_text(f"今天日期是{datetime.now().strftime('%d/%m/%Y')}")
-    logging.info(f"current arrival date: {datetime.now().strftime('%d/%m/%Y')}")
-    message = f"到货日期: {datetime.now().strftime('%d/%m/%Y')}\n请选择供应商:"
-    update.message.reply_text(text=message, reply_markup=get_supplier_buttons())
-    return CHOOSE_SUPPLIER_METHOD
-
-def manual_input_arrival_date(update: Update, context: CallbackContext) -> int:
-    text = update.message.text
-    try:
-        # Attempt to convert the text input into a datetime object
-        custom_date = datetime.strptime(text, '%d/%m/%Y')
-        # If successful, store the date in context.user_data
-        context.user_data['arrival_date'] = custom_date
-        message = f"到货日期: {datetime.now().strftime('%d/%m/%Y')}\n请选择供应商:"
-        update.message.reply_text(text=message, reply_markup=get_supplier_buttons())
-        return CHOOSE_SUPPLIER_METHOD
-    except ValueError:
-        # If the date format is incorrect, prompt the user to try again
-        update.message.reply_text("日期格式不正确，请使用DD/MM/YYYY格式重新输入：")
-        return MANUAL_INPUT_ARRIVAL_DATE    
+def arrival_date_message(date):
+    return f"入货日期为：{date} \n请选择供应商名称:\n（如果没有显示，证明系统没有搜索到供应商，需要到/add_supplier添加）"
 
 def get_supplier_buttons():
-    suppliers = warehousing_manager.get_supplier_list() 
-    buttons = [InlineKeyboardButton(supplier, callback_data=supplier) for supplier in suppliers]
-    buttons.append(InlineKeyboardButton("手动输入", callback_data="manual_input_supplier"))
-    keyboard = InlineKeyboardMarkup(build_menu(buttons, n_cols=2)) 
+    flag, suppliers = warehousing_manager.get_supplier_list() 
+    buttons = []
+    if flag:
+        buttons = [InlineKeyboardButton(supplier, callback_data=supplier) for supplier in suppliers]        
+    # buttons.append(InlineKeyboardButton("手动输入", callback_data="manual_input_supplier"))
+    keyboard = InlineKeyboardMarkup(build_menu(buttons, n_cols=4)) 
     return keyboard
-
-def choose_supplier_method(update: Update, context: CallbackContext) -> int:
-    logging.info("choose supplier method")
-    if update.callback_query:
-        query = update.callback_query
-        query.answer()
-        
-        if query.data == 'manual_input_supplier':
-            query.edit_message_text(text="请输入供应商名称:")
-            return MANUAL_INPUT_SUPPLIER
-        else: 
-            context.user_data['supplier'] = query.data 
-            reply_markup = get_product_buttons() 
-            query.edit_message_text(text=f"供应商名称: {query.data}\n请选择产品输入方式:", reply_markup=reply_markup)
-            return SUPPLIER_PRODUCT
-    else:
-        text = update.message.text
-        context.user_data['supplier'] = text
-        logging.info("manual input supplier")
-        reply_markup = get_product_buttons()
-        update.message.reply_text(text=f"供应商名称: {query.data}\n请选择产品输入方式:", reply_markup=reply_markup)
-        return SUPPLIER_PRODUCT 
-
-def manual_input_supplier(update: Update, context: CallbackContext) -> int:
-    text = update.message.text
-    context.user_data['supplier'] = text
-    logging.info("mannual input supplier")
-    update.message.reply_text(text=f"供应商名称: {text}\n请选择产品输入方式:", reply_markup=get_product_buttons())
-    return SUPPLIER_PRODUCT
 
 def get_product_buttons():
     products = inventory_manager.get_product_list()
+    flag, product_list = warehousing_manager.get_product_list()
+    for product in product_list:
+        if product not in products: 
+            products.append(product)
     buttons = [InlineKeyboardButton(product, callback_data=product) for product in products]
-    buttons.append(InlineKeyboardButton("手动输入", callback_data="manual_input_product"))
-    return InlineKeyboardMarkup(build_menu(buttons, n_cols=2)) 
+    # buttons.append(InlineKeyboardButton("手动输入", callback_data="manual_input_product"))
+    return InlineKeyboardMarkup(build_menu(buttons, n_cols=4)) 
 
-def choose_product_method(update: Update, context: CallbackContext) -> int:
-    query = update.callback_query
-    query.answer()
-    logging.info("choose product method")
-    if query.data == 'manual_input_product':
-        query.edit_message_text(text="请输入产品名称:")
-        return MANUAL_INPUT_PRODUCT
-    else: 
-        context.user_data['supplier_product'] = query.data
-        query.edit_message_text(text=f"产品名称: {query.data} \n请输入入库数量:")
-        return WAREHOUSING_STOCK_IN
-
-def manual_input_product(update: Update, context: CallbackContext) -> int:
-    logging.info("mannual input product")
-    text = update.message.text
-    context.user_data['supplier_product'] = text
-    update.message.reply_text(text=f"产品名称: {text} \n请输入入库数量:")
-    return WAREHOUSING_STOCK_IN
-
-def warehousing_stock_in(update: Update, context: CallbackContext) -> int:
-    text = update.message.text
-    logging.info("warehousing stock in ")
-    try:
-        quantity = int(text)
-        if quantity > 0:
-            context.user_data['warehousing_stock_in'] = quantity
-            update.message.reply_text("请输入单价:")
-            return WAREHOUSING_UNIT_PRICE
-        else:
-            raise ValueError
-    except ValueError:
-        update.message.reply_text("请输入有效的正整数作为入库数量:")
-        return WAREHOUSING_STOCK_IN
-
-def warehousing_unit_price(update: Update, context: CallbackContext) -> int:
-    text = update.message.text
-    logging.info("warehousing unit price")
-    try:
-        price = float(text)
-        if price > 0:
-            context.user_data['warehousing_unit_price'] = price
-                    
-            # 例如，结束对话并给出确认信息
-            return confirm_warehousing_information(update, context) 
-        else:
-            raise ValueError
-    except ValueError:
-        update.message.reply_text("请输入有效的正数作为单价:")
-        return WAREHOUSING_UNIT_PRICE
-
-def confirm_warehousing_information(update: Update, context: CallbackContext) -> int:
-    query = update.callback_query
-    # query.answer()
-    logging.info("confirm warehousing information")
-    confirmation_text = "请确认您提供的信息：\n"
-    confirmation_text += f"到货日期: {context.user_data['arrival_date']}\n"
-    confirmation_text += f"供应商: {context.user_data['supplier']}\n"
-
-    # 检查是否用户已经手动输入了产品名称
-    if context.user_data.get('manual_input_for_product', False):
-        confirmation_text += f"产品: {context.user_data.get('supplier_product', '未提供')}\n"
-    else:
-        confirmation_text += f"产品: {context.user_data.get('supplier_product', '未选择')}\n"
-    
-    confirmation_text += f"入库数量: {context.user_data['warehousing_stock_in']}\n"
-    confirmation_text += f"单价: {context.user_data['warehousing_unit_price']}\n"
-
-    keyboard = [[InlineKeyboardButton("确认", callback_data='confirm'), 
-                 InlineKeyboardButton("取消", callback_data='cancel')]]
+def start_add_warehousing(update: Update, context: CallbackContext) -> int:
+    today = datetime.now().strftime('%d/%m/%Y')
+    context.user_data['record_in_arrival_date'] = today
+    keyboard = [
+        [InlineKeyboardButton("确认今日日期", callback_data='confirm_today')],
+        [InlineKeyboardButton("输入新日期", callback_data='enter_custom')]
+    ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    query.edit_message_text(text=confirmation_text, reply_markup=reply_markup)
+    message = f"当前出货日期默认为今日：{today}。确认或更改？"
+    # context.bot.send_message(chat_id=update.message.chat_id, text=message, reply_markup=reply_markup)
+    update.message.reply_text(message, reply_markup=reply_markup)
+    logging.info(f"{today} is today")
+    return RECORD_IN_ARRIVAL_DATE
 
-    return SUPPLIER_CONFIRMATION
-
-def confirm_warehousing(update: Update, context: CallbackContext) -> None:
+def record_in_arrival_date(update: Update, context: CallbackContext):
     query = update.callback_query
     query.answer()
-    logging.info("confirm warehuosing and add warehousing")
-    if query.data == 'confirm':
-        # 用户确认了信息，进行数据添加操作
-        result_message = inventory_manager.add_warehousing_record(
-            arrival_date=context.user_data['arrival_date'],
-            supplier=context.user_data['supplier'],
-            product=context.user_data.get('supplier_product', None),  # 如果用户手动输入产品名称，从context.user_data中获取
-            stock_in=context.user_data['warehousing_stock_in'],
-            unit_price=context.user_data['warehousing_unit_price'],
-        )
-        query.edit_message_text(text=result_message)
-    else:
-        # 用户取消操作
-        query.edit_message_text(text="操作已取消。")
-    
+    user_input = query.data
+    logging.info(f"[{user_input}] in the record in arrival date {str(user_input).startswith('enter')}")
+    if str(user_input).startswith('enter'):
+        logging.info("here we input the date")
+        message = f"请输入出货日期(格式DD/MM/YYYY):"
+        # query.edit_message_text(text=message)
+        context.bot.send_message(chat_id=query.message.chat_id, text=message)
+        return MANUAL_RECORD_IN_ARRIVAL_DATE
+
+    logging.info("here we input the supplier")
+    # context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    query.edit_message_text(text=arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons())
+    return RECORD_IN_SUPPLIER
+
+def manual_record_in_shipping_date(update: Update, context: CallbackContext) -> int:
+    text = update.message.text
+    logging.info(f"record in date manual")
+    if text.startswith('confirm'):
+        update.message.reply_text(arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons())
+        return RECORD_IN_SUPPLIER
+    try:
+        # Attempt to convert the text input into a datetime object
+        flag, custom_date = check_shipping_date(text)
+        logging.info(f"we input the date is {custom_date}")
+        if flag:
+            context.user_data['record_in_arrival_date'] = custom_date
+            message = f"已确认入货日期：{context.user_data['record_in_arrival_date']}\n请选择供应商名称:\n（如果没有显示，证明系统没有搜索到供应商，需要到/add_supplier添加）"
+            context.bot.send_message(chat_id=update.message.chat_id, text=message)
+            update.message.reply_text(message, reply_markup=get_supplier_buttons())
+            return RECORD_IN_SUPPLIER
+        else: 
+            raise ValueError 
+    except ValueError:
+        # If the date format is incorrect, prompt the user to try again
+        update.message.reply_text("日期格式不正确，请使用DD/MM/YYYY格式重新输入：")
+        return MANUAL_RECORD_IN_ARRIVAL_DATE
+
+def record_in_supplier(update: Update, context: CallbackContext) -> int:
+    query = update.callback_query
+    query.answer()
+    user_input = query.data
+    context.user_data['record_in_supplier'] = ''
+    logging.info(f"[{user_input}] in the record in supplier {str(user_input).startswith('manual_input_')}")
+    context.user_data['record_in_supplier'] = user_input
+    message = f"供应商名称: {user_input}\n请选择产品:"
+    context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    query.edit_message_text(text=message, reply_markup=get_product_buttons())    
+    return RECORD_IN_PRODUCT
+
+def record_in_product(update: Update, context: CallbackContext) -> int:
+    query = update.callback_query
+    query.answer()
+    user_input = query.data
+    logging.info(f"[{user_input}] in the record in product {str(user_input).startswith('manual_input_')}")
+    context.user_data['record_in_product'] = user_input
+    message = f"产品名称: {user_input}\n请输入入库数量:"
+    context.bot.send_message(chat_id=query.message.chat_id, text=message)
+    query.edit_message_text(text=message)    
+    return RECORD_IN_STOCK_IN
+
+def record_in_stock_in(update: Update, context: CallbackContext) -> int:
+    user_input = update.message.text
+    context.user_data['record_in_stock_in'] = user_input
+    update.message.reply_text('请输入单价:')
+    return RECORD_IN_UNIT_PRICE
+
+def record_in_unit_price(update: Update, context: CallbackContext) -> int:
+    user_input = update.message.text
+    context.user_data['record_in_unit_price'] = user_input
+    result = warehousing_manager.add_warehousing_record(
+        arrival_date=context.user_data['record_in_arrival_date'] , 
+        supplier=context.user_data['record_in_supplier'], 
+        product=context.user_data['record_in_product'], 
+        stock_in=context.user_data['record_in_stock_in'], 
+        unit_price=context.user_data['record_in_unit_price'] )
+    update.message.reply_text(f"{result}", reply_markup=ReplyKeyboardRemove())
+    return ConversationHandler.END
+
+ADD_SUPPLIER = range(1)
+
+def start_add_supplier(update: Update, context: CallbackContext) -> int:
+    update.message.reply_text("请输入供应商名称:")
+    return ADD_SUPPLIER
+
+def add_supplier(update: Update, context: CallbackContext) -> int:
+    text = update.message.text
+    logging.info(f"add supplier {text}")
+    result = warehousing_manager.add_supplier(text)
+    if result:
+        message = f"{text} 供应商已经成功加入"
+    else: 
+        message = f"{text} 供应商已在系统中"
+    context.bot.send_message(chat_id=update.message.chat_id, text=message)
     return ConversationHandler.END
 

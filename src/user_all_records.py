@@ -38,7 +38,7 @@ def show_sales_records(update: Update, context: CallbackContext, sale_info: str)
         response_message += f"出库数量 : {sale.get_stock_out()}\n"
         response_message += f"单价 : {sale.get_unit_price()}\n"
         response_message += f"总价 : {sale.get_total_price()}\n"
-        response_message += f"销售员 : {sale.get_seller()}\n"
+        response_message += f"销售员 : {sale.get_staff()}\n"
         response_message += f"款项 : {sale.get_payment()}\n"
         send_long_text(update.effective_chat.id, response_message, context.bot)
         response_message = ''
@@ -220,7 +220,7 @@ def show_product_message(update: Update, context: CallbackContext, product_data:
         send_long_text(update.effective_chat.id, message, context.bot)
         
 def list_all_products(update: Update, context: CallbackContext) -> None:
-    all_products = inventory_manager.get_all()  # 调用 get_all 方法获取所有产品信息
+    all_products = inventory_manager.get_all()  
     
     # 检查是否有产品
     if not all_products:
@@ -248,7 +248,7 @@ def start_get_product_data(update: Update, context: CallbackContext) -> int:
 
 def product_query(update: Update, context: CallbackContext) -> int:
     query = update.callback_query
-    query.answer()  # 确认收到回调查询
+    query.answer() 
     product_name = query.data
     logging.info(f"we are looking for product: {product_name}")
     flag, product_data = inventory_manager.get_product_data(product_name)

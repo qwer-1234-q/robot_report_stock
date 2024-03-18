@@ -137,6 +137,7 @@ class Inventories:
             writer.writerow(get_inventory_title())
 
     def get_product_data(self, product_name):
+        self.load_inventory_data()
         for product in self._inventory_table:
             if str(product.get_product()) == str(product_name):
                 print(f"We got product {product_name}")
@@ -144,7 +145,10 @@ class Inventories:
         # Product not found, return a message indicating so
         return False, f"产品 '{product_name}' 未找到。"
 
-    def add_or_update_product(self, product, stock_in=None, stock_out=None, schedule_inventory=None):
+    def add_or_update_product(self, product=None, stock_in=None, stock_out=None, schedule_inventory=None):
+        if product is None: 
+            return "没有输入产品，无法更新"
+        self.load_inventory_data()
         self.get_sorted_products_by_name()  # 首先排序库存信息
         found = False
 
@@ -160,6 +164,7 @@ class Inventories:
                 # 重新计算总库存和可用库存
                 item._total_inventory = item._opening_inventory + item._stock_in - item._stock_out
                 item._in_stock = item._total_inventory - item._schedule_inventory
+                print(f"{product} in the list")
                 break
 
         if not found:
@@ -167,6 +172,7 @@ class Inventories:
             stock_in, stock_out, schedule_inventory = 0, 0, 0
             new_product = Inventory(product, 0, int(stock_in), int(stock_out), int(schedule_inventory), total_inventory=None, in_stock=None)
             self._inventory_table.append(new_product)
+            print(f"{product} just add into list")
 
         self.save_inventory_table()
         return f"产品 '{product}' 的库存信息已更新。"
@@ -183,6 +189,7 @@ class Inventories:
         Returns:
         - None, but prints a message indicating the outcome.
         """
+        self.load_inventory_data()
         # Search for the product by name
         for i, item in enumerate(self._inventory_table):
             if item.get_product() == product_name:
@@ -211,6 +218,7 @@ class Inventories:
         - 按指定标准排序的库存项列表。
           A list of sorted inventory items according to the specified criteria.
         """
+        # self.load_inventory_data()
         if sort_order == 'asc':
             sorted_products = sorted(self._inventory_table, key=lambda item: item.get_product())
         elif sort_order == 'desc':
@@ -238,6 +246,7 @@ class Inventories:
         - 按指定标准排序的库存项列表。
           A list of sorted inventory items according to the specified criteria.
         """
+        # self.load_inventory_data()
         # Sort inventory items by their in-stock quantity
         sorted_inventory = sorted(self._inventory_table, key=lambda item: int(item.get_in_stock()))
 
@@ -259,7 +268,7 @@ class Inventories:
         - A list of strings, where each string is a product name from the inventory.
         """
         self.load_inventory_data()
-        product_list = [ ]
+        product_list = []
         for product in self._inventory_table:
             if product.get_product() not in product_list:
                 product_list.append(str(product.get_product()))

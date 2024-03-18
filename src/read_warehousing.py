@@ -84,10 +84,12 @@ class Warehousing_read:
     def __init__(self):
         self._warehousing_table = []
         self._filepath = "./data/warehousing_table.csv"
+        self._filepath_supplier = "./data/supplier_sheet.csv"
+        self._supplier_list = []
+        self.load_warehousing()
+        self.load_supplier()
     
     def load_warehousing(self):
-        self._warehousing_table.clear()
-        self._warehousing_table = []
         with open(self._filepath, encoding='utf-8') as warehousing_file:
             reader = csv.DictReader(warehousing_file)
             i = 0
@@ -104,7 +106,22 @@ class Warehousing_read:
                    Warehousing(tmp_arrival, row['Supplier'], row['Product'],
                             row['Stock In'], row['Unit Price'], row['Total Price']) 
                 )
+                if row['Supplier'] is not None and row['Supplier'] not in self._supplier_list:
+                    self._supplier_list.append(row['Supplier'])
 
+    def load_supplier(self):
+        with open(self._filepath_supplier, encoding='utf-8') as supplier_file:
+            reader = csv.DictReader(supplier_file)
+            i = 0
+            for row in reader: 
+                if i == 0:
+                    i = 1
+                    continue
+                if row['Supplier'] is None: 
+                    continue
+                if row['Supplier'] not in self._supplier_list:
+                    self._supplier_list.append(row["Supplier"])
+        
     def sort_records(self):
         """根据到货日期从新到旧、供应商从A-Z、产品名称从A-Z、入库数量从小到大、单价从小到大进行排序"""
         self._warehousing_table = sorted(self._warehousing_table, key=lambda item: (
@@ -125,15 +142,31 @@ class Warehousing_read:
             for item in self._warehousing_table:
                 writer.writerow(item.to_dict())
     
+    def save_supplier_to_csv(self):
+        with open(self._filepath_supplier, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=['Supplier'])
+            writer.writeheader()
+            writer.writerow({'Supplier': "供应商"})
+            for item in self._supplier_list:
+                writer.writerow({"Supplier": item})
+
     def clear_warehousing(self):
         self._warehousing_table.clear()
         self._warehousing_table = []
         with open(self._filepath, 'w', newline='', encoding='utf-8') as csvfile:
+            writer = csv.DictWriter(csvfile, fieldnames=['Supplier'])
+            writer.writeheader()
+            writer.writerow({'Supplier': "供应商"})
+    
+    def clear_supplier(self):
+        self._supplier_list.clear()
+        self._supplier_list = []
+        with open(self._filepath_supplier, 'w', newline='', encoding='utf-8') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=warehousing_titles().keys())
             writer.writeheader()
             writer.writerow(warehousing_titles())
 
-    def add_warehousing_record(self, arrival_date, supplier, product, stock_in, unit_price, total_price):
+    def add_warehousing_record(self, arrival_date=None, supplier=None, product=None, stock_in=0, unit_price=0):
         """添加一个新的仓储记录"""
         if handle_data(supplier) == 0:
             return "无法录入，没有提供货商。"
@@ -146,14 +179,23 @@ class Warehousing_read:
             return arrival_date
         stock_in = int(handle_data(stock_in))
         unit_price = float(handle_data(unit_price))
-        
+        total_price = stock_in * unit_price
+        self.load_warehousing()
         # 创建一个新的Warehousing实例并添加到列表中
         new_record = Warehousing(arrival_date, supplier, product, stock_in, unit_price, total_price)
         self._warehousing_table.append(new_record)
         self.save_to_csv()
         inventories_manager.add_or_update_product(product=product, stock_in=stock_in, stock_out=0, schedule_inventory=None)
-        return f"{arrival_date} {supplier} {product} {stock_in} 已经成功录入。"
+        return f"入货日期：{arrival_date} \n供应商：     {supplier} \n产品:       {product} \n入库数量: {stock_in} \n已经成功录入。"
     
+    def add_supplier(self, supplier):
+        self.load_supplier()
+        if supplier not in self._supplier_list: 
+            self._supplier_list.append(supplier)
+            self.save_supplier_to_csv()
+            return True 
+        return False
+
     def delete_warehousing_record(self, arrival_date, supplier, product):
         """根据到货日期、供应商和产品名称删除仓储记录"""
         # 首先检验到货日期格式是否正确
@@ -165,6 +207,7 @@ class Warehousing_read:
         if handle_data(product) == 0:
             return "无法录入，没有提供产品名称。"
         
+        self.load_warehousing()
         # 查找并删除匹配的记录
         deleted = False
         for i, record in enumerate(self._warehousing_table):
@@ -187,7 +230,7 @@ class Warehousing_read:
         date_check, arrival_date = check_shipping_date(arrival_date)
         if date_check is False:
             return arrival_date
-        
+        self.load_warehousing()
         # 查找并更新匹配的记录
         for record in self._warehousing_table:
             if (record.get_arrival_date() == arrival_date and 
@@ -218,6 +261,7 @@ class Warehousing_read:
         """根据到货日期查找入库记录"""
         # 将字符串日期转换为datetime对象以便比较
         # target_date = datetime.strptime(date_str, "%d/%m/%Y")
+        self.load_warehousing()
         flag, target_date = check_shipping_date(date_str)
         # 查找所有与给定日期匹配的记录
         flag = False 
@@ -232,20 +276,16 @@ class Warehousing_read:
     
     def find_by_supplier(self, supplier_name):
         """根据供应商查找入库记录"""
-        # 查找所有与给定供应商名称匹配的记录
+        self.load_warehousing()
         matching_records = [item for item in self._warehousing_table if item.get_supplier() == supplier_name]
         return matching_records
     
     def get_supplier_list(self): 
-        suppliers = []
-        flag = False
         self.load_warehousing()
-        for record in self._warehousing_table:
-            if record.get_supplier() not in suppliers:
-                flag = True
-                suppliers.append(record.get_supplier())  
-        print(f"warehousing supplier:\n{suppliers}")
-        return flag, suppliers
+        self.load_supplier()
+        if len(self._supplier_list) > 0:
+            return True, self._supplier_list
+        return False, self._supplier_list
 
     def get_product_list(self):
         """

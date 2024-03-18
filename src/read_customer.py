@@ -19,7 +19,7 @@ class Customer:
         self._payment_chinese = "实付金额"
         if debt is not None:
             self._debt = float(debt)
-        self._debt = self._payment - self._payable         
+        self._debt = self._payable - self._payment         
         self._debt_chinese = "欠款金额"
     
     def get_customer(self):
@@ -97,6 +97,8 @@ class Customers:
         self._customer_payment_history = []
 
     def add_or_update_customer(self, customer_name, payable, payment):
+        self.load_customer()
+        print(f"add_or_update_customer {customer_name}, payable: {payable}, payment: {payment}")
         try:
             if payable is not None:
                 payable = float(payable)
@@ -117,9 +119,9 @@ class Customers:
                     existing_payable = float(customer.get_payable()) + payable
                     existing_payment = float(customer.get_payment()) + payment
                     debt = existing_payable - existing_payment
-                    customer._payable = str(existing_payable)
-                    customer._payment = str(existing_payment)
-                    customer._debt = str(debt)
+                    customer._payable = float(existing_payable)
+                    customer._payment = float(existing_payment)
+                    customer._debt = float(debt)
 
                     self.save_customers()  # 保存更新
                     return f"客户 '{customer_name}' 的信息已更新，当前债务为：{debt}。"
@@ -128,12 +130,13 @@ class Customers:
 
         # 如果未找到客户，则添加新客户
         debt = payable - payment
-        new_customer = Customer(customer_name, str(payable), str(payment), str(debt))
+        new_customer = Customer(customer_name, float(payable), float(payment), float(debt))
         self._customer_payment_history.append(new_customer)
         self.save_customers()
         return f"已添加新客户 '{customer_name}'，当前债务为：{debt}。"
 
     def delete_customer(self, customer_name):
+        self.load_customer()
         # 在列表中查找客户
         for i, customer in enumerate(self._customer_payment_history):
             if str(customer.get_customer()) == str(customer_name):

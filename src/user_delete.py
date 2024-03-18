@@ -147,7 +147,6 @@ def manual_delete_warehousing_date(update: Update, context: CallbackContext) -> 
     text = update.message.text
     try:
         # Attempt to convert the text input into a datetime object
-        # custom_date = datetime.strptime(text, '%d/%m/%Y')
         flag, custom_date = check_shipping_date(text)
         if flag:
             context.user_data['delete_arrival_date'] = custom_date

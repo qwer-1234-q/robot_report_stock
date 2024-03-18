@@ -16,18 +16,18 @@ def title_sales():
             'Stock Out': "出库数量",
             'Unit Price': "单价",
             'Total Price': "总价",
-            'Seller': "销售员",
+            'Staff': "销售员",
             'Payment': "款项"
         }
 
 class Sale: 
     def __init__(self, sale_id, customer, product, shipping_date=None, 
-                 stock_out=0, unit_price=0, seller=None, payment=0):
+                 stock_out=0, unit_price=0, staff=None, payment=0):
         if not sale_id:
             # raise ValueError("销售ID为必填项。/ Sale ID are required fields.")
             return ("销售ID为必填项。/ Sale ID are required fields.")
-        if not customer or not product or seller is None:
-            return ("客户、产品名称和销售员为必填项。/ Customer, product name, and seller are required fields.")
+        if not customer or not product or staff is None:
+            return ("客户、产品名称和销售员为必填项。/ Customer, product name, and staff are required fields.")
         self._sale_id = sale_id
         self._sale_id_chinese = "销售ID"
         _, self._shipping_date = check_shipping_date(shipping_date)
@@ -42,8 +42,8 @@ class Sale:
         self._unit_price_chinese = "单价"
         self._total_price = self._unit_price * self._stock_out
         self._total_price_chinese = "总价"
-        self._seller = seller 
-        self._seller_chinese = "销售员"
+        self._staff = staff 
+        self._staff_chinese = "销售员"
         self._payment = float(payment) if payment else 0
         self._payment_chinese = "款项"
 
@@ -89,11 +89,11 @@ class Sale:
     def get_total_price_chinese(self):
         return self._total_price_chinese
 
-    def get_seller(self):
-        return self._seller
+    def get_staff(self):
+        return self._staff
 
-    def get_seller_chinese(self):
-        return self._seller_chinese
+    def get_staff_chinese(self):
+        return self._staff_chinese
 
     def get_payment(self):
         return self._payment
@@ -110,15 +110,18 @@ class Sale:
             'Stock Out': self._stock_out,
             'Unit Price': self._unit_price,
             'Total Price': self._total_price,
-            'Seller': self._seller,
+            'Staff': self._staff,
             'Payment': self._payment
         }
 
 class Sales: 
     def __init__(self):
         self._sales_record_sheet = []
-        self._filepath = "./data/sales_record_sheet.csv"
+        self._filepath = "./data/sales_record_sheet.csv"        
+        self._staff_list = []
+        self._filepath_staff = "./data/staff_sheet.csv"
         self.load_sales()
+        self.load_staff()
 
     def load_sales(self):
         self._sales_record_sheet = []    
@@ -135,14 +138,46 @@ class Sales:
                     if row['Sale ID'] is None or row['Sale ID'] == '':
                         continue 
                     if float(row['Unit Price']) * int(row['Stock Out']) != float(row['Total Price']):
-                        print(f"原来的表格中,日期为{row['Shipping Date']}, 客户为{row['Customer']}，产品为{row['Product']}，销售员为{row['Seller']} 的总价不等于单价x出库数量")
+                        print(f"原来的表格中,日期为{row['Shipping Date']}, 客户为{row['Customer']}，产品为{row['Product']}，销售员为{row['Staff']} 的总价不等于单价x出库数量")
                     self._sales_record_sheet.append(
                         Sale(sale_id=row['Sale ID'], shipping_date=row['Shipping Date'], 
                              customer=row['Customer'], product=row['Product'], stock_out=row['Stock Out'], 
-                             unit_price=row['Unit Price'], seller=row['Seller'], payment=row['Payment'])
+                             unit_price=row['Unit Price'], staff=row['Staff'], payment=row['Payment'])
                     )
+                    if row['Staff'] not in self._staff_list:
+                        self._staff_list.append(row['Staff'])
         except FileNotFoundError:
             print("销售记录文件未找到，开始为空记录表。/ Sales record file not found. Starting with an empty record sheet.")
+
+    def load_staff(self):
+        self._staff_list = []
+        try:
+            with open(self._filepath_staff, encoding='utf-8') as staff_file:
+                reader = csv.DictReader(staff_file)
+                i = 0
+                for row in reader: 
+                    if i == 0:
+                        i = 1
+                        continue
+                    if row['Staff'] not in self._staff_list:
+                        self._staff_list.append(row['Staff'])
+        except FileNotFoundError:
+            print("销售员记录文件未找到，开始为空记录表。")
+
+    def save_staff_to_csv(self):
+        with open(self._filepath_staff, 'w', newline='', encoding='utf-8') as staff_file:
+            writer = csv.DictWriter(staff_file, fieldnames=['Staff'])
+            writer.writeheader()
+            writer.writerow({'Staff': "销售员"})
+            for staff in self._staff_list:
+                writer.writerow({'Staff': staff})
+
+    def clear_staff(self):
+        self._staff_list = []
+        with open(self._filepath_staff, 'w', newline='', encoding='utf-8') as staff_file:
+            writer = csv.DictWriter(staff_file, fieldnames=['Staff'])
+            writer.writeheader()
+            writer.writerow({'Staff': "销售员"})
 
     def save_sales_to_csv(self):
         self.sort_sales_by_id()
@@ -162,6 +197,7 @@ class Sales:
             writer.writeheader()
             writer.writerow(title_sales())
         self._sales_record_sheet.clear()
+        self._sales_record_sheet = []
 
     def sort_sales_by_id(self):
         # Sort the sales record sheet by sale ID
@@ -192,8 +228,10 @@ class Sales:
         return False
     
     def add_sale(self, customer, product, shipping_date=None,
-                 stock_out=0, unit_price=0, seller=None, payment=0):            
+                 stock_out=0, unit_price=0, staff=None, payment=0):            
         print(f"received {customer}, {shipping_date}")
+        self.load_sales()
+        self.load_staff()
         tmp_sale_id, shipping_date = self.create_sale_id(shipping_date)
         if tmp_sale_id is False:
             return shipping_date
@@ -209,19 +247,34 @@ class Sales:
         
         sale = Sale(sale_id=tmp_sale_id, shipping_date=shipping_date, customer=customer, 
                     product=product, stock_out=stock_out, unit_price=unit_price, 
-                    seller=seller, payment=payment)
+                    staff=staff, payment=payment)
         self._sales_record_sheet.append(sale)
+        if staff is not None:
+            if staff not in self._staff_list:
+                self._staff_list.append(staff)
+                self.save_staff_to_csv()
         self.save_sales_to_csv()
-        print(f"销售记录ID {tmp_sale_id} 已成功添加。/ Sale with ID {tmp_sale_id} added successfully.")
         self.add_customer_and_inventories(customer, (float(unit_price) * int(stock_out)), payment, product, stock_out)
+        print(f"销售记录ID {tmp_sale_id} 已成功添加。/ Sale with ID {tmp_sale_id} added successfully.")        
         return f"销售记录ID {tmp_sale_id} 已成功添加。"
     
     def add_customer_and_inventories(self, customer_name, payable, payment, product, stock_out):
         customers_manager.add_or_update_customer(customer_name=customer_name, payable=payable, payment=payment)
-        inventories_manager.add_or_update_product(self, product=product, stock_in=0, stock_out=stock_out, schedule_inventory=None)
+        inventories_manager.add_or_update_product(product=product, stock_in=0, stock_out=stock_out, schedule_inventory=None)
+
+    def add_staff(self, staff):
+        self.load_sales()
+        self.load_staff()
+        if staff is not None and staff not in self._staff_list:
+            self._staff_list.append(staff)
+            self.save_staff_to_csv()
+            return True 
+        return False
+        
 
     def delete_sale(self, sale_id):
         """删除指定销售ID的销售记录"""
+        self.load_sales()
         for i, sale in enumerate(self._sales_record_sheet):
             if str(sale.get_sale_id()) != str(sale_id):
                 self.add_customer_and_inventories(sale.get_customer(), -sale.get_total_price(), -sale.get_payment(), sale.get_product(), -sale.get_stock_out())
@@ -233,6 +286,7 @@ class Sales:
 
     def find_sale_by_id(self, sale_id):
         """根据销售ID查找销售记录"""
+        self.load_sales()
         for sale in self._sales_record_sheet:
             if str(sale.get_sale_id()) == str(sale_id):
                 return True, [sale]
@@ -240,6 +294,7 @@ class Sales:
     
     def find_sales_by_customer(self, customer_name):
         """根据客户名称查找该客户的所有购买记录"""
+        self.load_sales()
         matching_sales = []
         flag = False
         for sale in self._sales_record_sheet:
@@ -248,14 +303,15 @@ class Sales:
                 flag = True
         return flag, matching_sales
     
-    def get_seller_name_list(self):
-        sales_list = set()
+    def get_staff_name_list(self):
+        # sales_list = set()
+        self.load_staff()
         self.load_sales()
-        for sale in self._sales_record_sheet:
-            if sale.get_seller() not in sales_list:
-                sales_list.add(sale.get_seller())
-        print(f"supplier list : {sales_list}")
-        return list(sales_list)
+        # for sale in self._sales_record_sheet:
+        #     if sale.get_staff() not in sales_list:
+        #         sales_list.add(sale.get_staff())
+        print(f"supplier list : {self._staff_list}")
+        return self._staff_list
     
     def get_customer_name_list(self):
         sales_list = set()
