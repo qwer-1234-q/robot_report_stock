@@ -62,7 +62,7 @@ def help(update: Update, context: CallbackContext) -> int:
         "主页",
         "/main_menu - 主菜单/主目录",
         "/help - 列出所有功能并帮助你找你想要的操作。",
-        "/sale menu - 销售记录",
+        "/sale_menu - 销售记录",
         "/customer_menu - 客户记录",
         "/inventory_menu - 库存表",
         "/warehousing_menu - 入库记录",
