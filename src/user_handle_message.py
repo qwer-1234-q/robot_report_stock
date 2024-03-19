@@ -9,9 +9,10 @@ from datetime import datetime
                             Start 开始
 ###################################################################################
 """
-# def start(update: Update, context: CallbackContext) -> None:
-#     """发送一个消息，当命令 /start 被调用时。"""
-#     update.message.reply_text('欢迎使用我们的Telegram机器人！')
+def start(update: Update, context: CallbackContext) -> None:
+    """发送一个消息，当命令 /start 被调用时。"""
+    update.message.reply_text('欢迎使用我们的Telegram机器人！')
+    main_menu(update, context)
 
 """
 ###################################################################################
@@ -25,17 +26,9 @@ def send_long_text(chat_id, text, bot):
         bot.send_message(chat_id=chat_id, text=part)
 
 def cancel(update: Update, context: CallbackContext) -> int:
-    update.message.reply_text('操作已取消。')
+    reply_message(update, context,'操作已取消。', None)
+    context.user_data.clear()
     return ConversationHandler.END
-
-def build_date_keyboard():
-    keyboard = [
-        # Button for selecting today's date directly
-        [InlineKeyboardButton(text="选择今日日期", callback_data='choose_today')],
-        # Button for prompting the user to enter a custom date
-        [InlineKeyboardButton(text="输入自定义日期", callback_data='enter_custom_date')]
-    ]
-    return InlineKeyboardMarkup(keyboard)
 
 def build_menu(buttons, n_cols):
     menu = [buttons[i:i + n_cols] for i in range(0, len(buttons), n_cols)]
@@ -46,10 +39,29 @@ def handle_input(data):
         return None 
     return data
 
+def reply_message(update, context, message, reply_markup=None):
+    query = update.callback_query
+    bot = context.bot
+    if query:
+        query.answer()
+        query.edit_message_text(text=message, reply_markup=reply_markup)
+        # bot.send_message(chat_id=query.message.chat.id, text=message, reply_markup=reply_markup)
+    else:
+        update.message.reply_text(message, reply_markup=reply_markup)
+        # bot.send_message(update.effective_chat.id, text=message, reply_markup=reply_markup)
+
+def reply_long_message(update, context, response):
+    query = update.callback_query
+    if query:
+        send_long_text(query.message.chat.id, response, context.bot)
+    else:
+        send_long_text(update.effective_chat.id, response, context.bot)
+
 def help(update: Update, context: CallbackContext) -> int:
     command_list = [
         "主页",
         "/main_menu - 主菜单/主目录",
+        "/help - 列出所有功能并帮助你找你想要的操作。",
         "\n-----------------------------------------",
         "销售记录表",
         "-----------------------------------------\n",
@@ -80,10 +92,10 @@ def help(update: Update, context: CallbackContext) -> int:
         "-----------------------------------------\n",
         "/record_in - 添加仓库入库记录。",
         "/add_supplier - 添加供应商的名称。",
-        "/delete_warehousing - 删除仓库入库记录。",
+        "/delete_record_in - 删除仓库入库记录。",
         # "/update_warehousing - 更新仓库入库记录信息。（未完成）",
         "/get_all_warehousing - 获取所有仓库入库记录。",
-        "/get_warehoursing_by_date - 根据到货日期查找入库记录。",
+        "/get_record_in_by_date - 根据到货日期查找入库记录。",
         "\n-----------------------------------------",
         "-----------------------------------------",
         "请使用这些命令与机器人进行交互。"
@@ -111,8 +123,10 @@ def main_menu(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton("入库记录", callback_data='warehousing_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    update.message.reply_text('请选择菜单:', reply_markup=reply_markup)
-    return CHOOSE_ACTION
+    message = '请选择菜单:'
+    reply_message(update, context, message, reply_markup)
+    # update.message.reply_text('请选择菜单:', reply_markup=reply_markup)
+    # return CHOOSE_ACTION
 
 def menu_handler(update: Update, context: CallbackContext) -> None:
     """处理菜单的回调查询"""
@@ -130,7 +144,6 @@ def menu_handler(update: Update, context: CallbackContext) -> None:
         return CUSTOMER_MENU
     elif query.data == 'inventory_menu':
         logging.info(f"3 GO TO THE {query.data} in the menu_handler")
-        
         # inventory_menu(update, context)
         # return HANDLE_INVENTORY
         return INVENTORY_MENU
@@ -162,70 +175,55 @@ def sale_menu(update: Update, context: CallbackContext) -> None:
         query.edit_message_text(text="销售记录操作:", reply_markup=reply_markup)
     else: 
         update.message.reply_text("销售记录操作:", reply_markup=reply_markup)
-    handle_sale_menu_choice(update, context)
-    return HANDLE_SALE
+    # return handle_sale_menu_choice(update, context)
+    logging.info("Go to the handle_sale_menu_choice ")
+    # return HANDLE_SALE
     
 from user_record_out import start_record_out 
 from user_all_records import sale_get_all, start_find_sale_by_customer_name, start_find_sale
 from user_delete import start_delete_sale
 from user_add_staff import add_staff_start
 
+RECORD_OUT_START = range(1)
+
 def handle_sale_menu_choice(update: Update, context: CallbackContext):
     query = update.callback_query
     if query:
         query.answer() 
         data = query.data
-
-        logging.info(f"handle_sale_menu choics {data}")
-        if data == 'record_out':
-            query.edit_message_text('/record_out 请点击')
-            start_record_out(update, context)
-            # return start_record_out(update, context)
-        elif data == 'sale_get_all':
-            query.edit_message_text('/sale_get_all 请点击')
-            sale_get_all(update, context)
-            # return sale_get_all(update, context)
-        elif data == 'sale_delete_by_id':
-            start_delete_sale(update, context)
-            # return start_delete_sale(update, context)
-        elif data == 'add_staff':
-            add_staff_start(update, context)
-            # return add_staff_start(update, context)
-        elif data == 'sale_by_customer':
-            start_find_sale_by_customer_name(update, context)
-            # return start_find_sale_by_customer_name(update, context)
-        elif data == 'sale_get_by_id':
-            start_find_sale(update, context)
-            # return start_find_sale(update, context)
-        elif data == 'main_menu':
-            main_menu(update, context)
-            # return main_menu(update, context)
-    else: 
+    else:
         data = update.message.text
-        logging.info(f"handle_sale_menu choics {data}")
-        if data == 'record_out':
-            update.message.reply_text('/record_out 请点击')
-            start_record_out(update, context)
-            # return start_record_out(update, context)
-        elif data == 'sale_get_all':
-            update.message.reply_text('/sale_get_all 请点击')
-            sale_get_all(update, context)
-            # return sale_get_all(update, context)
-        elif data == 'sale_delete_by_id':
-            start_delete_sale(update, context)
-            # return start_delete_sale(update, context)
-        elif data == 'add_staff':
-            add_staff_start(update, context)
-            # return add_staff_start(update, context)
-        elif data == 'sale_by_customer':
-            start_find_sale_by_customer_name(update, context)
-            # return start_find_sale_by_customer_name(update, context)
-        elif data == 'sale_get_by_id':
-            start_find_sale(update, context)
-            # return start_find_sale(update, context)
-        elif data == 'main_menu':
-            main_menu(update, context)
-            # return main_menu(update, context)
+    logging.info(f"handle_sale_menu choics {data}")
+    if data == 'record_out':
+        query.edit_message_text('/record_out 请点击')
+        # start_record_out(update, context)
+        # message = '/record_out'
+        # context.bot.send_message(chat_id=query.message.chat_id, text=message)
+        return start_record_out(update, context)
+        # return RECORD_OUT_START
+    elif data == 'sale_get_all':
+        query.edit_message_text('/sale_get_all 请点击')
+        # sale_get_all(update, context)
+        return sale_get_all(update, context)
+    elif data == 'sale_delete_by_id':
+        query.edit_message_caption('/sale_delete_by_id 请点击')
+        # start_delete_sale(update, context)
+        return start_delete_sale(update, context)
+    elif data == 'add_staff':
+        # add_staff_start(update, context)
+        query.edit_message_caption('/add_staff 请点击')
+        return add_staff_start(update, context)
+    elif data == 'sale_by_customer':
+        # start_find_sale_by_customer_name(update, context)
+        return start_find_sale_by_customer_name(update, context)
+    elif data == 'sale_get_by_id':
+        # start_find_sale(update, context)
+        query.edit_message_caption('/sale_get_by_id 请点击')
+        return start_find_sale(update, context)
+    elif data == 'main_menu':
+        query.edit_message_caption('/main_menu 请点击')
+        # main_menu(update, context)
+        return main_menu(update, context)
     
 def customer_menu(update: Update, context: CallbackContext) -> None:
     """客户记录菜单"""
@@ -243,12 +241,12 @@ def customer_menu(update: Update, context: CallbackContext) -> None:
         query.edit_message_text(text="请选择客户记录操作:", reply_markup=reply_markup)
     else:
         update.message.reply_text('请选择客户记录操作:', reply_markup=reply_markup)
-    handle_customer_menu_choice(update, context)
-    return HANDLE_CUSTOMER 
+    # handle_customer_menu_choice(update, context)
+    # return HANDLE_CUSTOMER 
 
 def handle_customer_menu_choice(update: Update, context: CallbackContext):
     query = update.callback_query
-    query.answer()  # 通知 Telegram，回调查询已被处理
+    query.answer() 
     
     # 根据用户的选择进行分支处理
     if query.data == 'add_customer':
@@ -275,10 +273,12 @@ def inventory_menu(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton("列出所有产品", callback_data='list_all_products')],
         [InlineKeyboardButton("返回主菜单", callback_data='main_menu')]
     ]
-    query = update.callback_query
+    # query = update.callback_query
     reply_markup = InlineKeyboardMarkup(keyboard)
-    query.edit_message_text(text="库存操作:", reply_markup=reply_markup)
-    return HANDLE_INVETORY
+    message = "库存操作:"
+    reply_message(update, context, message, reply_markup)
+    # query.edit_message_text(text="库存操作:", reply_markup=reply_markup)
+    # return HANDLE_INVETORY
 
 def handle_inventory_menu_choice(update, context):
     """处理库存菜单的选择"""
@@ -312,15 +312,17 @@ def warehousing_menu(update: Update, context: CallbackContext) -> None:
     keyboard = [
         [InlineKeyboardButton("添加仓库入库记录", callback_data='record_in')],
         [InlineKeyboardButton("添加供应商的名称", callback_data='add_supplier')],
-        [InlineKeyboardButton("删除仓库入库记录", callback_data='delete_warehousing')],
+        [InlineKeyboardButton("删除仓库入库记录", callback_data='delete_record_in')],
         [InlineKeyboardButton("获取所有仓库入库记录", callback_data='get_all_warehousing')],
-        [InlineKeyboardButton("根据到货日期查找入库记录", callback_data='get_warehousing_by_date')],
+        [InlineKeyboardButton("根据到货日期查找入库记录", callback_data='get_record_in_by_date')],
         [InlineKeyboardButton("返回主菜单", callback_data='main_menu')]
     ]
     query = update.callback_query
     reply_markup = InlineKeyboardMarkup(keyboard)
-    query.edit_message_text(text="入库记录操作:", reply_markup=reply_markup)
-    return HANDLE_WAREHOUSING
+    message = "入库记录操作:"
+    reply_message(update, context, message, reply_markup)
+    # query.edit_message_text(text="入库记录操作:", reply_markup=reply_markup)
+    # return HANDLE_WAREHOUSING
 
 def handle_warehousing_menu_choice(update, context):
     """处理入库记录菜单的选择"""
@@ -335,7 +337,7 @@ def handle_warehousing_menu_choice(update, context):
     elif data == 'add_supplier':
         # 执行添加供应商的操作
         query.edit_message_text(text="请输入供应商名称。")
-    elif data == 'delete_warehousing':
+    elif data == 'delete_record_in':
         # 执行删除仓库入库记录的操作
         query.edit_message_text(text="请输入要删除的入库记录ID。")
     elif data == 'get_all_warehousing':

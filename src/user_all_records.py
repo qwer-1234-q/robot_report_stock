@@ -11,7 +11,10 @@ from read_customer import Customers
 from helper import check_shipping_date
 
 from datetime import datetime 
-from user_handle_message import send_long_text, cancel, build_date_keyboard, build_menu
+from user_handle_message import send_long_text, cancel, reply_message
+from user_handle_message import reply_long_message
+
+from user_get_button_menu import get_customer_buttons, build_date_keyboard, get_product_buttons
 
 # Telegram Bot Token
 TOKEN = '6487583852:AAGH3YlPRpfuOtLt-GlWvyI4Ss-B1lxOdtA'
@@ -47,11 +50,11 @@ def show_sales_records(update: Update, context: CallbackContext, sale_info: str)
     
 # Get all sales records 获取所有销售记录
 def sale_get_all(update: Update, context: CallbackContext) -> None:
-    # 调用销售管理对象的方法来获取销售记录
     sales = sales_manager.get_all()
-    # 检查是否有销售记录
     if not sales:
-        update.message.reply_text("当前没有销售记录。")
+        # update.message.reply_text("当前没有销售记录。")
+        message = "当前没有销售记录。"
+        reply_message(update, context, message, None)
         return ConversationHandler.END
     i = show_sales_records(update, context, sales)
     response = f"一共有{i}记录销售。"
@@ -61,7 +64,9 @@ def sale_get_all(update: Update, context: CallbackContext) -> None:
 SALE_FIND = range(1)
 # Function to start finding a sale record by ID
 def start_find_sale(update: Update, context: CallbackContext) -> int:
-    update.message.reply_text('请输入要查找的销售记录ID:')
+    # update.message.reply_text('请输入要查找的销售记录ID:')
+    message='请输入要查找的销售记录ID:'
+    reply_message(update, context, message, None)
     return SALE_FIND
 
 # Function to find a sale record by ID
@@ -81,7 +86,6 @@ def find_sale_by_id(update: Update, context: CallbackContext) -> int:
     else:  # If sale_info is None or not found
         response_message = f"未找到销售ID为 '{sale_id}' 的记录。"
     
-    # 使用 send_long_text 函数发送长文本
     send_long_text(update.effective_chat.id, response_message, context.bot)
     return ConversationHandler.END
 
@@ -89,15 +93,9 @@ def find_sale_by_id(update: Update, context: CallbackContext) -> int:
 SALE_FIND_CUSTOMER, HANDLE_MANUAL_FIND_CUSTOMER_INPUT = range(2)
 
 def start_find_sale_by_customer_name(update: Update, context: CallbackContext) -> int:
-    customer_list = customers_manager.get_customer_name_list()  
-    for name in sales_manager.get_customer_name_list():
-        if name not in customer_list:
-            customer_list.append(name)
-    logging.info(f"customer list is {customer_list}")
-    buttons = [InlineKeyboardButton(name, callback_data=name) for name in customer_list]
-    buttons.append(InlineKeyboardButton("手动输入", callback_data="mannual_input_customer"))
-    reply_markup = InlineKeyboardMarkup(build_menu(buttons, 2))
-    update.message.reply_text('请选择或输入客户名字：', reply_markup=reply_markup)
+    flag, reply_markup = get_customer_buttons(update, context, manual_input=True, cancel=False)
+    message='请选择或输入客户名字：'
+    reply_message(update, context, message, reply_markup)
     return SALE_FIND_CUSTOMER
 
 def handle_customer_selection(update: Update, context: CallbackContext):
@@ -110,7 +108,6 @@ def handle_customer_selection(update: Update, context: CallbackContext):
         query.edit_message_text(text="请输入客户名字：")
         return HANDLE_MANUAL_FIND_CUSTOMER_INPUT
     else:
-        # 直接调用查找销售记录的逻辑
         return find_sale_by_customer_name_with_data(update, context, selected_customer)
 
 def handle_manual_find_customer_input(update: Update, context: CallbackContext) -> int:
@@ -126,8 +123,7 @@ def find_sale_by_customer_name_with_data(update: Update, context: CallbackContex
         response_message = f"该客户名为 '{customer}'的一共有{i}记录。"
     else:
         response_message = f"未找到客户名为 '{customer}' 的记录。"
-
-    send_long_text(update.effective_chat.id, response_message, context.bot)
+    reply_long_message(update, context, response_message)
     return ConversationHandler.END
 
 """
@@ -139,18 +135,19 @@ def get_customers_with_excess_payment_handler(update: Update, context: CallbackC
     flag, customers_with_excess_payment = customers_manager.get_customers_with_excess_payment()
     
     if not flag:
-        update.message.reply_text("没有找到超额支付的客户。")
+        # update.message.reply_text("没有找到超额支付的客户。")
+        message="没有找到超额支付的客户。"
+        reply_message(update, context, message, None)
         return ConversationHandler.END
     i = 0
     response = "超额支付的客户列表:\n"
     for customer in customers_with_excess_payment:
         excess_payment = float(customer.get_payment()) - float(customer.get_payable())
         response += f"- 客户 {customer.get_customer()}: \n\t支付了 {customer.get_payment()}，\n\t但应付金额仅为 {customer.get_payable()}。\n\t超额: {excess_payment}\n"
-        send_long_text(update.effective_chat.id, response, context.bot)
+        reply_long_message(update, context, response)
         i += 1
         response = ''
     response = f'一共有{i}位客户超额支付。'
-    send_long_text(update.effective_chat.id, response, context.bot)
     return ConversationHandler.END
 
 def get_customers_with_debt(update: Update, context: CallbackContext) -> None:
@@ -171,7 +168,6 @@ def get_customers_with_debt(update: Update, context: CallbackContext) -> None:
     else:
         response = "目前没有客户欠款"
     
-    # Send the response back to the user
     send_long_text(update.effective_chat.id, response, context.bot)
     return ConversationHandler.END
 
@@ -180,20 +176,19 @@ def get_all_customers(update: Update, context: CallbackContext) -> None:
     all_customers = customers_manager.get_all()
     
     if not all_customers:
-        update.message.reply_text("没有找到客户。")
+        reply_message(update, context, "没有找到客户。", None)
         return ConversationHandler.END
-
-    # 格式化客户列表以便显示
+    
     i = 0
     message = "所有客户列表：\n"
     for customer in all_customers:
         customer_info = customer.to_dict()  # 假设每个客户都有一个 to_dict 方法以便格式化
         message += f"客户名：{customer_info['Customer']}, 、\n应付金额：{customer_info['Payable']}元, \n实付金额：{customer_info['Payment']}元, \n欠款金额：{customer_info['Debt']}元\n"
-        send_long_text(update.effective_chat.id, message, context.bot)
+        reply_long_message(update, context, message)
         i += 1
         message = ''
     message = f"一共有{i}位客户登记在列"
-    send_long_text(update.effective_chat.id, message, context.bot)
+    reply_long_message(update, context, message)
     return ConversationHandler.END
 
 """
@@ -224,12 +219,14 @@ def list_all_products(update: Update, context: CallbackContext) -> None:
     
     # 检查是否有产品
     if not all_products:
-        update.message.reply_text("当前库存中没有产品。")
+        # update.message.reply_text("当前库存中没有产品。")
+        reply_message(update, context, "当前库存中没有产品。", None)
         return ConversationHandler.END
     
     # 格式化产品信息为文本
     message = "当前库存中的所有产品：\n\n"
-    send_long_text(update.effective_chat.id, message, context.bot)
+    # send_long_text(update.effective_chat.id, message, context.bot)
+    reply_long_message(update, context, message)
     show_product_message(update, context, all_products)
     return ConversationHandler.END
 
@@ -237,19 +234,18 @@ def list_all_products(update: Update, context: CallbackContext) -> None:
 PRODUCT_QUERY = range(1)
 
 def start_get_product_data(update: Update, context: CallbackContext) -> int:
-    product_list = inventory_manager.get_product_list()
-    if len(product_list) == 0:
-        update.message.reply_text("当前库存中没有产品。")
-        return ConversationHandler.END
-    keyboard = [InlineKeyboardButton(name, callback_data=name) for name in product_list]
-    reply_markup = InlineKeyboardMarkup(build_menu(keyboard, 2))
-    update.message.reply_text('请选择您想查询的产品名称：', reply_markup=reply_markup)
+    flag, reply_markup = get_product_buttons(update, context, manual_input=False, cancel=True) 
+    if flag is False:
+        return cancel(update, context)
+    reply_message(update, context, '请选择您想查询的产品名称：', reply_markup)
     return PRODUCT_QUERY
 
 def product_query(update: Update, context: CallbackContext) -> int:
     query = update.callback_query
     query.answer() 
     product_name = query.data
+    if product_name.startswith('cancel'):
+        return cancel(update, context)
     logging.info(f"we are looking for product: {product_name}")
     flag, product_data = inventory_manager.get_product_data(product_name)
     
@@ -277,17 +273,27 @@ def show_warehousing_records(update, context, warehousing):
         message += f"入库数量: {item.get_stock_in()}\n" 
         message += f"单价: {item.get_unit_price()},\n"
         message += f"总价: {item.get_unit_price()}\n"
-        send_long_text(update.effective_chat.id, message, context.bot)
+        # send_long_text(update.effective_chat.id, message, context.bot)
+        # reply_long_message(update, context, message)
+        reply_message(update, context, message)
         i += 1
         message = ''
     if message != '':
-        send_long_text(update.effective_chat.id, message, context.bot)
+        # send_long_text(update.effective_chat.id, message, context.bot)
+        # reply_long_message(update, context, message)
+        reply_message(update, context, message)
+    message = f'一共{i}条记录。'
+    # send_long_text(update.effective_chat.id, message, context.bot)
+    # reply_long_message(update, context, message)
+    reply_message(update, context, message)
 
 FIND_BY_DATE, MANUAL_FIND_WAREHOUSING_DATE = range(2)
 
 def start_find_by_date(update: Update, context: CallbackContext) -> int:
     """启动对话，询问用户想查询的日期"""
-    update.message.reply_text('请选择日期:', reply_markup=build_date_keyboard())
+    # update.message.reply_text('请选择日期:', reply_markup=build_date_keyboard())
+    logging.info(f"start find by date")
+    reply_message(update, context, '请选择日期:', reply_markup=build_date_keyboard())
     return FIND_BY_DATE
 
 def find_by_date(update: Update, context: CallbackContext) -> int:
@@ -304,14 +310,15 @@ def find_by_date(update: Update, context: CallbackContext) -> int:
     return ConversationHandler.END
 
 def get_warehousing_info_by_date(update, context, selected_date):
-    # 根据选择的日期查找记录
-    text = update.message.text
+    # text = update.message.text
     flag, matching_records = warehousing_manager.find_by_date(selected_date)
     if flag:
-        update.message.reply_text(text=f"{selected_date} 找到以下匹配的记录\n")
+        # update.message.reply_text(text=f"{selected_date} 找到以下匹配的记录\n")
+        reply_message(update, context, f"{selected_date} 找到以下匹配的记录\n", reply_markup=None)
         show_warehousing_records(update, context, matching_records)
     else:
-        update.message.reply_text(text=f"{selected_date} 没有找到匹配的记录。")
+        # update.message.reply_text(text=f"{selected_date} 没有找到匹配的记录。")
+        reply_message(update, context, f"{selected_date} 没有找到匹配的记录。", reply_markup=None)
 
 def manual_find_warehousing_date(update: Update, context: CallbackContext) -> int:
     text = update.message.text
@@ -335,11 +342,12 @@ def get_all_warehousing(update: Update, context: CallbackContext) -> None:
     all_records = warehousing_manager.get_all()
     
     if not all_records:
-        update.message.reply_text("当前没有入库记录。")
+        # update.message.reply_text("当前没有入库记录。")
+        reply_message(update, context,"当前没有入库记录。", None)
         return ConversationHandler.END
 
-    # 构建回复消息
-    reply_message = "所有入库记录：\n"
-    send_long_text(update.effective_chat.id, reply_message, context.bot)
+    message = "所有入库记录：\n"
+    # send_long_text(update.effective_chat.id, message, context.bot)
+    reply_long_message(update, context, message)
     show_warehousing_records(update, context, all_records)    
     return ConversationHandler.END

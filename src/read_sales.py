@@ -271,18 +271,21 @@ class Sales:
             return True 
         return False
         
-
     def delete_sale(self, sale_id):
         """删除指定销售ID的销售记录"""
         self.load_sales()
+        delete_flag = False
         for i, sale in enumerate(self._sales_record_sheet):
-            if str(sale.get_sale_id()) != str(sale_id):
-                self.add_customer_and_inventories(sale.get_customer(), -sale.get_total_price(), -sale.get_payment(), sale.get_product(), -sale.get_stock_out())
+            if str(sale.get_sale_id()) == str(sale_id):
+                # self.add_customer_and_inventories(sale.get_customer(), -sale.get_total_price(), -sale.get_payment(), sale.get_product(), -sale.get_stock_out())
                 del self._sales_record_sheet[i]
                 print(f"销售记录ID {sale_id} 已被删除。")
+                delete_flag = True
         # self._sales_record_sheet = [sale for sale in self._sales_record_sheet if str(sale.get_sale_id()) != str(sale_id)]
         self.save_sales_to_csv()  # 更新CSV文件
-        return f"销售记录ID {sale_id} 已被删除。"
+        if delete_flag:
+            return (f"销售记录ID {sale_id} 已被删除。")
+        return f"销售记录ID {sale_id} 没有找到。"
 
     def find_sale_by_id(self, sale_id):
         """根据销售ID查找销售记录"""

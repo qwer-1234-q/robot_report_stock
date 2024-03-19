@@ -57,7 +57,7 @@ from user_handle_message import warehousing_menu, handle_warehousing_menu_choice
 
 
 ### the message handle features from other files
-from user_handle_message import main_menu, menu_handler, send_long_text, cancel, build_date_keyboard, build_menu, help, handle_input
+from user_handle_message import start, main_menu, menu_handler, send_long_text, cancel, build_menu, help, handle_input
 
 
 """
@@ -72,6 +72,9 @@ from user_record_out import (start_record_out, record_out_customer, record_out_p
 from user_record_out import (RECORD_OUT_CUSTOMER, RECORD_OUT_PRODUCT, RECORD_OUT_SHIPPING_DATE, RECORD_OUT_STOCK_OUT, 
                              RECORD_OUT_UNIT_PRICE, RECORD_OUT_STAFF, RECORD_OUT_PAYMENT, RECORD_OUT_CONFIRMATION, 
                              MANUAL_INPUT_CUSTOMER, MANUAL_SOLD_PRODUCT, MANUAL_SOLD_SHIPPING_DATE, MANUAL_SOLD_STAFF)
+
+# RECORD_OUT_START = range(1)
+from user_handle_message import RECORD_OUT_START
 
 # all sales records
 from user_all_records import (sale_get_all, find_sale_by_id, start_find_sale, 
@@ -169,60 +172,39 @@ def main() -> None:
 
     # try:
         
-    # dispatcher.add_handler(CommandHandler("start", start))
-
-    # main_menu_conversation_handler = ConversationHandler(
-    #     entry_points=[CommandHandler('start', main_menu)],
-    #     states={
-    #         MAIN_MENU: [CallbackQueryHandler(main_menu),],
-    #         CHOOSE_ACTION: [CallbackQueryHandler(menu_handler),],
-    #         SALE_MENU: [CallbackQueryHandler(sale_menu, pattern='^sale_menu$')],
-    #         HANDLE_SALE: [CallbackQueryHandler(handle_sale_menu_choice)],
-    #         CUSTOMER_MENU: [CallbackQueryHandler(customer_menu, pattern='^customer_menu$')],
-    #         HANDLE_CUSTOMER: [CallbackQueryHandler(handle_customer_menu_choice)],
-    #         INVENTORY_MENU: [CallbackQueryHandler(inventory_menu, pattern='^inventory_menu$')],
-    #         HANDLE_INVENTORY: [CallbackQueryHandler(handle_inventory_menu_choice)],
-    #         WAREHOUSING_MENU: [CallbackQueryHandler(warehousing_menu, pattern='^warehousing_menu$')],
-    #         HANDLE_WAREHOUSING: [CallbackQueryHandler(handle_warehousing_menu_choice)]
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)],
-    # )
-    # dispatcher.add_handler(main_menu_conversation_handler)
-
-    dispatcher.add_handler(CommandHandler('start', main_menu))
-    dispatcher.add_handler(CallbackQueryHandler(menu_handler))
-
-    dispatcher.add_handler(CommandHandler('sale_menu', sale_menu))
-    dispatcher.add_handler(CallbackQueryHandler(sale_menu, pattern='^sale_menu$'))
-    dispatcher.add_handler(CallbackQueryHandler(handle_sale_menu_choice))
+    dispatcher.add_handler(CommandHandler("start", start))
     
-    # sale_conversation_handler = ConversationHandler(
-    #     entry_points=[CommandHandler('main_menu', main_menu)],
-    #     states={
-    #         SALE_MENU: [CallbackQueryHandler(sale_menu, pattern='^sale_menu$')],
-    #         HANDLE_SALE: [CallbackQueryHandler(handle_sale_menu_choice)]
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)],
-    # )
-
-    # dispatcher.add_handler(sale_conversation_handler)
-
-    dispatcher.add_handler(CommandHandler('customer_menu', customer_menu))
-    dispatcher.add_handler(CallbackQueryHandler(handle_customer_menu_choice))
-
-    dispatcher.add_handler(CommandHandler('inventory_menu', inventory_menu))
-    dispatcher.add_handler(CallbackQueryHandler(handle_inventory_menu_choice))
-    
-    dispatcher.add_handler(CommandHandler('warehousing_menu', warehousing_menu))
-    dispatcher.add_handler(CallbackQueryHandler(handle_warehousing_menu_choice))
-
     # help
     dispatcher.add_handler(CommandHandler("help", help))
 
-    ########################################### SALES ############################################################
-    dispatcher.add_handler(CommandHandler("sale_get_all", sale_get_all))
-    dispatcher.add_handler(CallbackQueryHandler(sale_menu, pattern='^sale_get_all$'))
+    ########################################### MENU #############################################################
+    
+    ### Main Menu 
+    dispatcher.add_handler(CommandHandler("main_menu", main_menu))
+    dispatcher.add_handler(CallbackQueryHandler(main_menu, pattern='^main_menu$'))
 
+    #### Sale Menu
+    dispatcher.add_handler(CommandHandler("sale_menu", sale_menu))
+    dispatcher.add_handler(CallbackQueryHandler(sale_menu, pattern='^sale_menu$'))
+
+    #### Customer Menu
+    dispatcher.add_handler(CommandHandler("customer_menu", customer_menu))
+    dispatcher.add_handler(CallbackQueryHandler(customer_menu, pattern='^customer_menu$'))
+
+    #### Inventory Menu 
+    dispatcher.add_handler(CommandHandler("inventory_menu", inventory_menu))
+    dispatcher.add_handler(CallbackQueryHandler(inventory_menu, pattern='^inventory_menu$'))
+
+    #### Warehousing Menu 
+    dispatcher.add_handler(CommandHandler("warehousing_menu", warehousing_menu))
+    dispatcher.add_handler(CallbackQueryHandler(warehousing_menu, pattern='^warehousing_menu$'))
+
+    ########################################### SALES ############################################################
+    ## sale get all
+    dispatcher.add_handler(CommandHandler("sale_get_all", sale_get_all))
+    dispatcher.add_handler(CallbackQueryHandler(sale_get_all, pattern='^sale_get_all$'))
+
+    ## record out
     conv_handler_record_out = ConversationHandler(
         entry_points=[CommandHandler('record_out', start_record_out)],
         states={
@@ -230,7 +212,6 @@ def main() -> None:
             RECORD_OUT_CUSTOMER: [CallbackQueryHandler(record_out_customer)],
             # MANUAL_INPUT_CUSTOMER: [MessageHandler(Filters.text & ~Filters.command, manual_input_customer)],
             # RECORD_OUT_PRODUCT: [MessageHandler(Filters.text & ~Filters.command, record_out_product)],
-            # RECORD_OUT_PRODUCT: [MessageHandler(Filters.text, record_out_product)],
             RECORD_OUT_PRODUCT: [CallbackQueryHandler(record_out_product)],
             # MANUAL_SOLD_PRODUCT: [MessageHandler(Filters.text & ~Filters.command, manual_sold_product)],
             # MANUAL_SOLD_SHIPPING_DATE:[MessageHandler(Filters.text & ~Filters.command, manual_sold_shipping_date)],
@@ -240,7 +221,6 @@ def main() -> None:
             RECORD_OUT_STOCK_OUT: [MessageHandler(Filters.text & ~Filters.command, record_out_stock_out)],
             RECORD_OUT_UNIT_PRICE: [MessageHandler(Filters.text & ~Filters.command, record_out_unit_price)],
             # RECORD_OUT_STAFF: [MessageHandler(Filters.text & ~Filters.command, record_out_staff)],
-            # RECORD_OUT_STAFF: [MessageHandler(Filters.text & ~Filters.command, record_out_staff)],
             RECORD_OUT_STAFF: [CallbackQueryHandler( record_out_staff)],
             # MANUAL_SOLD_STAFF: [MessageHandler(Filters.text  & ~Filters.command, manual_input_staff)],
             RECORD_OUT_PAYMENT: [MessageHandler(Filters.text & ~Filters.command, record_out_payment)],
@@ -249,7 +229,33 @@ def main() -> None:
     )
     
     dispatcher.add_handler(conv_handler_record_out)
+    
+    conv_handler_record_out_2_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_record_out, pattern='^record_out$')],
+        states={
+            # RECORD_OUT_CUSTOMER: [MessageHandler(Filters.text & ~Filters.command, record_out_customer)],
+            RECORD_OUT_CUSTOMER: [CallbackQueryHandler(record_out_customer)],
+            # MANUAL_INPUT_CUSTOMER: [MessageHandler(Filters.text & ~Filters.command, manual_input_customer)],
+            # RECORD_OUT_PRODUCT: [MessageHandler(Filters.text & ~Filters.command, record_out_product)],
+            RECORD_OUT_PRODUCT: [CallbackQueryHandler(record_out_product)],
+            # MANUAL_SOLD_PRODUCT: [MessageHandler(Filters.text & ~Filters.command, manual_sold_product)],
+            # MANUAL_SOLD_SHIPPING_DATE:[MessageHandler(Filters.text & ~Filters.command, manual_sold_shipping_date)],
+            RECORD_OUT_SHIPPING_DATE: [CallbackQueryHandler(record_out_shipping_date)],
+            MANUAL_SOLD_SHIPPING_DATE:[MessageHandler(Filters.text & ~Filters.command, manual_sold_shipping_date)],
+            # RECORD_OUT_SHIPPING_DATE: [MessageHandler(Filters.text & ~Filters.command, record_out_shipping_date)],
+            RECORD_OUT_STOCK_OUT: [MessageHandler(Filters.text & ~Filters.command, record_out_stock_out)],
+            RECORD_OUT_UNIT_PRICE: [MessageHandler(Filters.text & ~Filters.command, record_out_unit_price)],
+            # RECORD_OUT_STAFF: [MessageHandler(Filters.text & ~Filters.command, record_out_staff)],
+            RECORD_OUT_STAFF: [CallbackQueryHandler( record_out_staff)],
+            # MANUAL_SOLD_STAFF: [MessageHandler(Filters.text  & ~Filters.command, manual_input_staff)],
+            RECORD_OUT_PAYMENT: [MessageHandler(Filters.text & ~Filters.command, record_out_payment)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)],
+    )
+    
+    dispatcher.add_handler(conv_handler_record_out_2_call)
 
+    ## add staff
     conv_handler_add_staff = ConversationHandler(
         entry_points=[CommandHandler("add_staff", add_staff_start)],
         states={
@@ -260,6 +266,17 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler_add_staff)
     
+    conv_handler_add_staff_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(add_staff_start, pattern='^add_staff$')],
+        states={
+            ADD_STAFF: [MessageHandler(Filters.text & ~Filters.command, add_staff_command)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_add_staff_call)
+
+    # sale delete by id
     conv_handler_sale_delete = ConversationHandler(
         entry_points=[CommandHandler('sale_delete_by_id', start_delete_sale)],
         states={
@@ -269,6 +286,16 @@ def main() -> None:
     )
 
     dispatcher.add_handler(conv_handler_sale_delete)
+
+    conv_handler_sale_delete_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_delete_sale, pattern='^sale_delete_by_id$')],
+        states={
+            SALE_DELETE: [MessageHandler(Filters.text & ~Filters.command, delete_sale)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_sale_delete_call)
 
     # This is find sale records for a customer
     conv_handler_sales_find_by_customer = ConversationHandler(
@@ -282,6 +309,18 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler_sales_find_by_customer)
     
+    conv_handler_sales_find_by_customer_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_find_sale_by_customer_name, pattern='^sale_by_customer$')],
+        states={
+            SALE_FIND_CUSTOMER: [CallbackQueryHandler(handle_customer_selection)],
+            HANDLE_MANUAL_FIND_CUSTOMER_INPUT: [MessageHandler(Filters.text & ~Filters.command, handle_manual_find_customer_input)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_sales_find_by_customer_call)
+
+    ## sales result get by sale id 
     conv_handler_sales_get_by_id = ConversationHandler(
         entry_points=[CommandHandler('sale_get_by_id', start_find_sale)],
         states={
@@ -291,8 +330,20 @@ def main() -> None:
     )
 
     dispatcher.add_handler(conv_handler_sales_get_by_id)
+
+    conv_handler_sales_get_by_id_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_find_sale, pattern='^sale_get_by_id$')],
+        states={
+            SALE_FIND: [MessageHandler(Filters.text & ~Filters.command, find_sale_by_id)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_sales_get_by_id_call)
+
     
     ################################################# Customer ######################################################
+    ### add customer name into the customer list
     conv_handler_customer_add = ConversationHandler(
         entry_points=[CommandHandler('add_customer', customer_add)],
         states={
@@ -307,10 +358,28 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler_customer_add)
 
+    conv_handler_customer_add_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(customer_add, pattern='^add_customer$')],
+        states={
+            CUSTOMER_NAME: [CallbackQueryHandler(customer_name)],
+            HANDLE_MANUAL_NEW_CUSTOMER_INPUT: [MessageHandler(Filters.text, handle_manual_new_customer_input)],
+            CUSTOMER_PAYABLE: [MessageHandler(Filters.text, customer_payable)],
+            CUSTOMER_PAYMENT: [MessageHandler(Filters.text, customer_payment)],         
+            CUSTOMER_COMFIRMATION: [CallbackQueryHandler(customer_confirmation, pattern=('^(confirm|reenter)$'))]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_customer_add_call)
+
+    ### Get the customer list which the customers with debt
     debt_handler = CommandHandler('get_customers_with_debt', get_customers_with_debt)
     dispatcher.add_handler(debt_handler)
+    dispatcher.add_handler(CallbackQueryHandler(get_customers_with_debt, pattern='^get_customers_with_debt$'))
 
+    ### Get the customer list which the customers with payment
     dispatcher.add_handler(CommandHandler('customer_excess_payment', get_customers_with_excess_payment_handler))
+    dispatcher.add_handler(CallbackQueryHandler(get_customers_with_excess_payment_handler, pattern='^customer_excess_payment$'))
 
     conv_handler_delete_customer = ConversationHandler(
         entry_points=[CommandHandler('delete_customer', customer_delete_start)],
@@ -323,9 +392,23 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler_delete_customer)
 
+    conv_handler_delete_customer_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(customer_delete_start, pattern='^delete_customer$')],
+        states={
+            CUSTOMER_DELETE_NAME: [CallbackQueryHandler(customer_delete_name)],
+            CUSTOMER_DELETE_CONFIRMATION: [CallbackQueryHandler(delete_customer_confirmation, pattern=('^(confirm_delete|cancel_delete)$'))],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_delete_customer_call)
+
+    ### Get customer list with their details
     dispatcher.add_handler(CommandHandler("get_all_customers", get_all_customers))
+    dispatcher.add_handler(CallbackQueryHandler(get_all_customers, pattern="^get_all_customers$"))
 
     ########################################### Inventory ###########################################
+    ## Get product data
     conv_handler_get_product_data = ConversationHandler(
         entry_points=[CommandHandler('get_product_data', start_get_product_data)],
         states={
@@ -336,8 +419,17 @@ def main() -> None:
 
     dispatcher.add_handler(conv_handler_get_product_data)
 
-    dp.add_handler(CommandHandler("start_get_product_data", start_get_product_data))
-    
+    conv_handler_get_product_data_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_get_product_data, pattern='^get_product_data$')],
+        states={
+            PRODUCT_QUERY: [CallbackQueryHandler(product_query)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_get_product_data_call)
+
+    # delete the inventory from inventory list
     conv_handler_inventory_delete = ConversationHandler(
         entry_points=[CommandHandler('delete_product', start_delete_product)],
         states={DELETE_PRODUCT: [CallbackQueryHandler(delete_product)],},
@@ -345,9 +437,20 @@ def main() -> None:
     )
 
     dispatcher.add_handler(conv_handler_inventory_delete)
+    
+    conv_handler_inventory_delete_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_delete_product, pattern='^delete_product$')],
+        states={DELETE_PRODUCT: [CallbackQueryHandler(delete_product)],},
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
 
+    dispatcher.add_handler(conv_handler_inventory_delete_call)
+
+    ## List all products in the inventory
     dispatcher.add_handler(CommandHandler('list_all_products', list_all_products))
+    dispatcher.add_handler(CallbackQueryHandler(list_all_products, pattern='list_all_products'))
 
+    # add or update the inventory from inventory list
     conv_handler_add_or_update_product = ConversationHandler(
         entry_points=[CommandHandler('add_or_update_product', start_add_or_update_product)],
             states={
@@ -362,7 +465,23 @@ def main() -> None:
     )
     
     dispatcher.add_handler(conv_handler_add_or_update_product)
+    
+    conv_handler_add_or_update_product_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_add_or_update_product, pattern='^add_or_update_product$')],
+            states={
+                PRODUCT_NAME: [CallbackQueryHandler(product_name)],
+                MANUAL_PRODUCT_NAME : [MessageHandler(Filters.text & ~Filters.command, manual_input_product)],
+                STOCK_IN: [MessageHandler(Filters.text & ~Filters.command, stock_in)],
+                STOCK_OUT: [MessageHandler(Filters.text & ~Filters.command, stock_out)],
+                SCHEDULE_INVENTORY: [MessageHandler(Filters.text & ~Filters.command, schedule_inventory)],
+                PRODUCT_CONFIRMATION: [CallbackQueryHandler(perform_add_or_update, pattern=('^(confirm|cancel)$'))]
+            },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+    
+    dispatcher.add_handler(conv_handler_add_or_update_product_call)
 
+    ## add product name without add other information 
     conv_handler_add_product_name = ConversationHandler(
         entry_points=[CommandHandler('add_product_name', add_product_name)],
         states={
@@ -372,10 +491,41 @@ def main() -> None:
     )
 
     dispatcher.add_handler(conv_handler_add_product_name)
+    
+    conv_handler_add_product_name_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(add_product_name, pattern='^add_product_name$')],
+        states={
+            ENTER_PRODUCT_NAME: [MessageHandler(Filters.text & ~Filters.command, enter_product_name)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
+
+    dispatcher.add_handler(conv_handler_add_product_name_call)
 
     ######################################### Warehousing #########################################
+    ## record in that the company purchased inventories from a supplier
     conv_handler_record_in = ConversationHandler(
         entry_points=[CommandHandler('record_in', start_add_warehousing)],
+        states={
+            # RECORD_IN_ARRIVAL_DATE: [MessageHandler(Filters.text & ~Filters.command, record_in_arrival_date)],
+            RECORD_IN_ARRIVAL_DATE: [CallbackQueryHandler(record_in_arrival_date)],
+            MANUAL_RECORD_IN_ARRIVAL_DATE:[MessageHandler(Filters.text & ~Filters.command, manual_record_in_shipping_date)],
+            # RECORD_IN_SUPPLIER: [MessageHandler(Filters.text & ~Filters.command, record_in_supplier)],
+            RECORD_IN_SUPPLIER: [CallbackQueryHandler(record_in_supplier)],
+            # MANUAL_RECORD_IN_SUPPLIER:[MessageHandler(Filters.text, manual_record_in_supplier)],
+            # RECORD_IN_PRODUCT: [MessageHandler(Filters.text & ~Filters.command, record_in_product)],
+            RECORD_IN_PRODUCT: [CallbackQueryHandler(record_in_product)],
+            # MANUAL_RECORD_IN_PRODUCT: [MessageHandler(Filters.text, manual_record_in_product)],
+            RECORD_IN_STOCK_IN: [MessageHandler(Filters.text & ~Filters.command, record_in_stock_in)],
+            RECORD_IN_UNIT_PRICE: [MessageHandler(Filters.text & ~Filters.command, record_in_unit_price)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)],
+    )
+
+    dispatcher.add_handler(conv_handler_record_in)
+    
+    conv_handler_record_in_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_add_warehousing, pattern='^record_in$')],
         states={
             # RECORD_IN_ARRIVAL_DATE: [MessageHandler(Filters.text & ~Filters.command, record_in_arrival_date)],
             RECORD_IN_ARRIVAL_DATE: [CallbackQueryHandler(record_in_arrival_date)],
@@ -392,53 +542,10 @@ def main() -> None:
         fallbacks=[CommandHandler('cancel', cancel)],
     )
 
-    dispatcher.add_handler(conv_handler_record_in)
+    dispatcher.add_handler(conv_handler_record_in_call)
 
-    # A series ConversationHandler to do record_in
-    # conv_handler_arrival_date = ConversationHandler(
-    #     entry_points=[CommandHandler('record_in', start_add_warehousing)],
-    #     states={
-    #         RECORD_IN_ARRIVAL_DATE: [CallbackQueryHandler(record_in_arrival_date)],
-    #         MANUAL_RECORD_IN_ARRIVAL_DATE: [MessageHandler(Filters.text, manual_record_in_shipping_date)],
-    #         # RECORD_IN_FINISH_ARRIVAL_DATE: [MessageHandler(Filters.text, record_in_finish_arrival_date)],
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)]
-    # )
-
-    # conv_handler_supplier = ConversationHandler(
-    #     entry_points=[CallbackQueryHandler(record_in_finish_arrival_date)],
-    #     # entry_points=[CallbackQueryHandler(record_in_supplier)],
-    #     states={
-    #         RECORD_IN_SUPPLIER: [CallbackQueryHandler(record_in_supplier)],
-    #         MANUAL_RECORD_IN_SUPPLIER: [MessageHandler(Filters.text, manual_record_in_supplier)],
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)]
-    # )
-
-    # conv_handler_product = ConversationHandler(
-    #     # entry_points=[MessageHandler(Filters.text, record_in_finish_arrival_date)],
-    #     entry_points=[CallbackQueryHandler(record_in_finish_supplier)],
-    #     states={
-    #         RECORD_IN_PRODUCT: [CallbackQueryHandler(record_in_product)],
-    #         MANUAL_RECORD_IN_PRODUCT: [MessageHandler(Filters.text, manual_record_in_product)],
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)]
-    # )
-
-    # conv_handler_stock_price = ConversationHandler(
-    #     entry_points=[MessageHandler(Filters.text & ~Filters.command, record_in_stock_in)],
-    #     states={
-    #         RECORD_IN_UNIT_PRICE: [MessageHandler(Filters.text & ~Filters.command, record_in_unit_price)],
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)]
-    # )
-
-    # dispatcher.add_handler(conv_handler_arrival_date)
-    # dispatcher.add_handler(conv_handler_supplier)
-    # dispatcher.add_handler(conv_handler_product)
-    # dispatcher.add_handler(conv_handler_stock_price)
     ############################################################
-
+    # add supplier 
     conv_handler_add_supplier = ConversationHandler(
         entry_points=[CommandHandler("add_supplier", start_add_supplier)],
         states={
@@ -448,9 +555,20 @@ def main() -> None:
     )
 
     dispatcher.add_handler(conv_handler_add_supplier)
+    
+    conv_handler_add_supplier_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_add_supplier, pattern="^add_supplier$")],
+        states={
+            ADD_SUPPLIER: [MessageHandler(Filters.text & ~Filters.command, add_supplier)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
 
+    dispatcher.add_handler(conv_handler_add_supplier_call)
+
+    ## delete a record in data
     delete_warehousing_conv_handler = ConversationHandler(
-        entry_points=[CommandHandler('delete_warehousing', start_delete_warehousing)],
+        entry_points=[CommandHandler('delete_record_in', start_delete_warehousing)],
         states={
             DELETE_ARRIVAL_DATE: [CallbackQueryHandler(delete_warehousing_arrival_date)],
             MANUAL_DELETE_WAREHOUSING_DATE: [MessageHandler(Filters.text & ~Filters.command, manual_delete_warehousing_date)],
@@ -458,35 +576,26 @@ def main() -> None:
             DELETE_PRODUCT: [CallbackQueryHandler(delete_warehousing_product)],
             DELETE_SUPPLIER_CONFIRMATION: [CallbackQueryHandler(delete_warehousing_confirmation, pattern=('^(confirm_delete|cancel)$'))]
         },
-        fallbacks=[CommandHandler('cancel', cancel)],  # 假设你有一个取消函数
+        fallbacks=[CommandHandler('cancel', cancel)],  
     )
     dispatcher.add_handler(delete_warehousing_conv_handler)
+    
+    delete_warehousing_conv_handler_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_delete_warehousing, pattern='^delete_record_in$', )],
+        states={
+            DELETE_ARRIVAL_DATE: [CallbackQueryHandler(delete_warehousing_arrival_date)],
+            MANUAL_DELETE_WAREHOUSING_DATE: [MessageHandler(Filters.text & ~Filters.command, manual_delete_warehousing_date)],
+            DELETE_SUPPLIER: [CallbackQueryHandler(delete_warehousing_supplier)],
+            DELETE_PRODUCT: [CallbackQueryHandler(delete_warehousing_product)],
+            DELETE_SUPPLIER_CONFIRMATION: [CallbackQueryHandler(delete_warehousing_confirmation, pattern=('^(confirm_delete|cancel)$'))]
+        },
+        fallbacks=[CommandHandler('cancel', cancel)],  
+    )
+    dispatcher.add_handler(delete_warehousing_conv_handler_call)
 
-    # update_warehousing_conv_handler = ConversationHandler(
-    #     entry_points=[CommandHandler('update_warehousing', start_update_warehousing)],
-    #     states={
-    #         UPDATE_ARRIVAL_DATE: [CallbackQueryHandler(update_arrival_date, pattern='^\d{2}/\d{2}/\d{4}$')],
-    #         UPDATE_SUPPLIER: [
-    #             CallbackQueryHandler(manual_input_supplier, pattern='^manual_input_supplier$'),
-    #             CallbackQueryHandler(warehousing_update_supplier, pattern='^\w+$')  # 假设供应商名称为字母和数字
-    #         ],
-    #         MANUAL_INPUT_SUPPLIER: [MessageHandler(Filters.text & ~Filters.command, manual_input_supplier)],
-    #         UPDATE_PRODUCT: [
-    #             CallbackQueryHandler(manual_input_product, pattern='^manual_input_product$'),
-    #             CallbackQueryHandler(supplier_product, pattern='^\w+$')  # 假设产品名称为字母和数字
-    #         ],
-    #         MANUAL_INPUT_PRODUCT: [MessageHandler(Filters.text & ~Filters.command, manual_input_product)],
-    #         UPDATE_NEW_QUANTITY: [MessageHandler(Filters.text & ~Filters.command, warehousing_update_new_quantity)],
-    #         UPDATE_NEW_UNIT_PRICE: [MessageHandler(Filters.text & ~Filters.command, warehousing_new_unit_price)],
-    #         UPDATE_CONFIRMATION: [CallbackQueryHandler(perform_update_warehousing, pattern='^(confirm|cancel)$')]
-    #     },
-    #     fallbacks=[CommandHandler('cancel', cancel)],
-    # )
-
-    # dispatcher.add_handler(update_warehousing_conv_handler)
-
+    ## get record results by date 
     conv_handler_find_by_date = ConversationHandler(
-        entry_points=[CommandHandler('get_warehoursing_by_date', start_find_by_date)],
+        entry_points=[CommandHandler('get_record_in_by_date', start_find_by_date)],
         states={
             FIND_BY_DATE: [CallbackQueryHandler(find_by_date)],
             MANUAL_FIND_WAREHOUSING_DATE: [MessageHandler(Filters.text & ~Filters.command, manual_find_warehousing_date)],
@@ -495,9 +604,22 @@ def main() -> None:
     )
 
     dispatcher.add_handler(conv_handler_find_by_date)
+    
+    conv_handler_find_by_date_call = ConversationHandler(
+        entry_points=[CallbackQueryHandler(start_find_by_date, pattern='^get_record_in_by_date$')],
+        states={
+            FIND_BY_DATE: [CallbackQueryHandler(find_by_date)],
+            MANUAL_FIND_WAREHOUSING_DATE: [MessageHandler(Filters.text & ~Filters.command, manual_find_warehousing_date)],
+        },
+        fallbacks=[CommandHandler('cancel', cancel)]
+    )
 
+    dispatcher.add_handler(conv_handler_find_by_date_call)
+    
+    ## get all record in data
     get_all_warehousing_handler = CommandHandler('get_all_warehousing', get_all_warehousing)
     dispatcher.add_handler(get_all_warehousing_handler)
+    dispatcher.add_handler(CallbackQueryHandler(get_all_warehousing, pattern='^get_all_warehousing$'))
     
     #######################################################################################################
     # 开始Bot

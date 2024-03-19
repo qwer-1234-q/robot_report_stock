@@ -149,7 +149,7 @@ class Inventories:
         if product is None: 
             return "没有输入产品，无法更新"
         self.load_inventory_data()
-        self.get_sorted_products_by_name()  # 首先排序库存信息
+        self.get_sorted_products_by_name() 
         found = False
 
         for item in self._inventory_table:

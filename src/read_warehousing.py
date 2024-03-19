@@ -268,7 +268,7 @@ class Warehousing_read:
         matching_records = []
         print(f"find by date {target_date}")
         for item in self._warehousing_table:
-            if datetime.strptime(item.get_arrival_date(), "%d/%m/%Y") == target_date:
+            if item.get_arrival_date() == target_date:
                 matching_records.append(item)
                 flag = True
         

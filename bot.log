@@ -3978,3 +3978,1288 @@ AttributeError: 'NoneType' object has no attribute 'answer'
 2024-03-18 18:54:07,491 - root - INFO - sale_get_all in the menu_handler
 2024-03-18 18:54:44,512 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
 2024-03-18 18:54:44,512 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-18 21:09:51,517 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-18 21:12:27,098 - root - INFO - sale_menu
+2024-03-18 21:12:28,647 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 21:12:30,581 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:12:55,709 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-18 22:12:55,749 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-18 22:17:12,844 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-18 22:17:16,639 - root - INFO - sale_menu
+2024-03-18 22:17:18,289 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 22:17:20,909 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:17:22,109 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:17:22,621 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:18:26,569 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-18 22:18:26,569 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-18 22:18:50,059 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-18 22:18:51,999 - root - INFO - sale_menu
+2024-03-18 22:18:53,690 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 22:18:55,958 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:18:57,319 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:18:57,841 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:18:58,350 - root - INFO - sale_get_all in the menu_handler
+2024-03-18 22:18:58,869 - root - INFO - sale_delete_by_id in the menu_handler
+2024-03-18 22:19:30,619 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-18 22:19:30,619 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-18 22:19:46,244 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-18 22:19:48,769 - root - INFO - sale_menu
+2024-03-18 22:19:50,209 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 22:19:52,069 - root - INFO - handle_sale_menu choics sale_get_all
+2024-03-18 22:25:51,079 - root - INFO - sale_menu
+2024-03-18 22:25:51,699 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 22:25:56,709 - root - INFO - handle_sale_menu choics sale_delete_by_id
+2024-03-18 22:25:56,709 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 188, in handle_sale_menu_choice
+    start_delete_sale(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_delete.py", line 35, in start_delete_sale
+    update.message.reply_text('\u8bf7\u8f93\u5165\u8981\u5220\u9664\u7684\u9500\u552e\u8bb0\u5f55ID:')
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-18 22:26:21,962 - root - INFO - handle_sale_menu choics sale_delete_by_id
+2024-03-18 22:26:21,962 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 188, in handle_sale_menu_choice
+    start_delete_sale(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_delete.py", line 35, in start_delete_sale
+    update.message.reply_text('\u8bf7\u8f93\u5165\u8981\u5220\u9664\u7684\u9500\u552e\u8bb0\u5f55ID:')
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-18 22:33:21,757 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-18 22:33:21,779 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-18 22:33:29,712 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-18 22:33:31,999 - root - INFO - sale_menu
+2024-03-18 22:33:33,509 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 22:33:36,251 - root - INFO - handle_sale_menu choics sale_delete_by_id
+2024-03-18 22:36:06,569 - root - INFO - sale_menu
+2024-03-18 22:36:07,131 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-18 22:36:10,849 - root - INFO - handle_sale_menu choics record_out
+2024-03-18 22:36:11,409 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-18 22:36:11,409 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 189, in handle_sale_menu_choice
+    start_record_out(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 41, in start_record_out
+    update.message.reply_text(message, reply_markup=reply_markup)
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-18 22:50:42,073 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-18 22:50:42,096 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 00:28:00,062 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 00:28:02,307 - root - INFO - sale_menu
+2024-03-19 00:28:03,913 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 00:28:03,913 - root - INFO - sale_menu
+2024-03-19 00:28:04,502 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 00:28:07,642 - root - INFO - handle_sale_menu choics sale_get_all
+2024-03-19 00:36:58,783 - root - INFO - sale_menu
+2024-03-19 00:37:00,305 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 00:40:09,513 - root - INFO - handle_sale_menu choics record_out
+2024-03-19 00:40:10,006 - root - INFO - customer list is ['hello word', 'Customer 9', '1234', 'Customer 5', 'Customer 15', 'Customer 4', '\u738b\u516b', '\u674e\u56db', 'Customer 12', 'Customer 8', 'Customer 1', 'hetao', 'Customer 6', 'Customer 13', 'Customer 3', 'Customer 2', 'Customer 10', 'Customer 14', 'Customer 7', 'Customer 11']
+2024-03-19 00:40:10,006 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 196, in handle_sale_menu_choice
+    start_record_out(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 43, in start_record_out
+    if len(reply_markup) < 2:
+TypeError: object of type 'InlineKeyboardMarkup' has no len()
+2024-03-19 00:42:05,023 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 00:42:05,023 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 00:52:16,637 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 00:55:30,193 - root - INFO - sale_menu
+2024-03-19 00:55:31,933 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 00:55:33,753 - root - INFO - handle_sale_menu choics record_out
+2024-03-19 00:55:35,072 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 196, in handle_sale_menu_choice
+    start_record_out(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 47, in start_record_out
+    reply_message(update, context, message, reply_markup)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 53, in reply_message
+    query.edit_message_text(text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Object expected as reply markup
+2024-03-19 00:56:25,853 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 47, in start_record_out
+    reply_message(update, context, message, reply_markup)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 55, in reply_message
+    update.message.reply_text(message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 764, in reply_text
+    return self.bot.send_message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Object expected as reply markup
+2024-03-19 01:09:14,633 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:09:14,646 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:09:28,273 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:09:30,783 - root - INFO - sale_menu
+2024-03-19 01:09:32,561 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 01:09:32,883 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 47, in start_record_out
+    reply_message(update, context, message, reply_markup)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 55, in reply_message
+    update.message.reply_text(message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 764, in reply_text
+    return self.bot.send_message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Object expected as reply markup
+2024-03-19 01:09:37,875 - root - INFO - handle_sale_menu choics record_out
+2024-03-19 01:09:39,253 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 196, in handle_sale_menu_choice
+    start_record_out(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 47, in start_record_out
+    reply_message(update, context, message, reply_markup)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 53, in reply_message
+    query.edit_message_text(text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Object expected as reply markup
+2024-03-19 01:10:21,283 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:10:21,283 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:11:23,397 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:11:26,039 - root - INFO - sale_menu
+2024-03-19 01:11:28,248 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 01:11:28,249 - root - INFO - sale_menu
+2024-03-19 01:11:28,753 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 01:11:31,783 - root - INFO - handle_sale_menu choics record_out
+2024-03-19 01:11:33,043 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 196, in handle_sale_menu_choice
+    start_record_out(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 51, in start_record_out
+    query.edit_message_text(text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Object expected as reply markup
+2024-03-19 01:12:55,979 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:12:55,979 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:13:12,853 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:13:14,873 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:13:16,588 - root - INFO - start to add a sale record
+2024-03-19 01:17:02,653 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:17:02,653 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:17:18,824 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:17:20,943 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:17:22,418 - root - INFO - start to add a sale record
+2024-03-19 01:17:26,474 - root - INFO - sale_menu
+2024-03-19 01:17:26,974 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 01:17:29,184 - root - INFO - handle_sale_menu choics record_out
+2024-03-19 01:17:29,672 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:17:30,614 - root - INFO - start to add a sale record
+2024-03-19 01:17:32,944 - root - INFO - handle_sale_menu choics Customer 5
+2024-03-19 01:17:36,965 - root - INFO - handle_sale_menu choics Customer 5
+2024-03-19 01:18:32,396 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:18:32,884 - root - INFO - start to add a sale record
+2024-03-19 01:18:34,384 - root - INFO - handle_sale_menu choics Customer 4
+2024-03-19 01:18:36,803 - root - INFO - handle_sale_menu choics Customer 4
+2024-03-19 01:26:57,465 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:26:57,465 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:27:28,634 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:27:30,493 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:27:32,096 - root - INFO - start to add a sale record
+2024-03-19 01:27:34,763 - root - INFO - handle_sale_menu choics Customer 14
+2024-03-19 01:28:08,313 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:28:08,313 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:28:27,356 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:28:29,301 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:28:30,822 - root - INFO - start to add a sale record
+2024-03-19 01:28:33,299 - root - INFO - handle_sale_menu choics Customer 9
+2024-03-19 01:29:03,564 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:29:03,564 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 01:29:20,862 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 01:29:23,251 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 01:29:24,714 - root - INFO - start to add a sale record
+2024-03-19 01:29:26,634 - root - INFO - handle_sale_menu choics Customer 15
+2024-03-19 01:29:30,034 - root - INFO - handle_sale_menu choics Customer 15
+2024-03-19 01:29:30,844 - root - INFO - handle_sale_menu choics Customer 15
+2024-03-19 01:29:31,376 - root - INFO - handle_sale_menu choics Customer 15
+2024-03-19 01:29:31,835 - root - INFO - handle_sale_menu choics Customer 15
+2024-03-19 01:30:08,050 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 01:30:08,050 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 14:16:26,626 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 14:16:39,099 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 14:16:40,859 - root - INFO - start to add a sale record
+2024-03-19 14:16:45,291 - root - INFO - handle_sale_menu choics Customer 14
+2024-03-19 14:16:57,431 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 14:16:57,431 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 14:18:06,031 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 14:18:08,678 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 14:18:10,438 - root - INFO - start to add a sale record
+2024-03-19 14:36:09,681 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 14:36:09,711 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 14:48:51,572 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 14:48:53,481 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 14:48:55,021 - root - INFO - start to add a sale record
+2024-03-19 15:13:14,602 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 15:13:14,655 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 15:15:02,183 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 15:15:06,691 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 15:15:08,662 - root - INFO - start to add a sale record
+2024-03-19 15:15:14,612 - root - INFO - record out product is \u4ea7\u54c1X
+2024-03-19 15:16:19,128 - root - INFO - sold manual
+2024-03-19 15:40:52,514 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 15:40:52,568 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 15:41:11,183 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 15:41:43,435 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 15:41:43,435 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 15:42:00,312 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 15:42:05,953 - root - INFO - sale_menu
+2024-03-19 15:42:07,853 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 15:42:09,406 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+TypeError: main.<locals>.<lambda>() takes 1 positional argument but 2 were given
+2024-03-19 15:42:13,693 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+TypeError: main.<locals>.<lambda>() takes 1 positional argument but 2 were given
+2024-03-19 15:42:55,780 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 15:42:55,780 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 15:43:12,820 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 15:43:14,933 - root - INFO - sale_menu
+2024-03-19 15:43:16,473 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 15:43:19,795 - root - INFO - handle_sale_menu choics record_out
+2024-03-19 15:43:24,674 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 15:43:25,193 - root - INFO - start to add a sale record
+2024-03-19 15:43:27,772 - root - INFO - handle_sale_menu choics Customer 4
+2024-03-19 15:43:29,593 - root - INFO - handle_sale_menu choics Customer 15
+2024-03-19 15:43:30,043 - root - INFO - handle_sale_menu choics Customer 5
+2024-03-19 15:43:30,502 - root - INFO - handle_sale_menu choics Customer 14
+2024-03-19 15:43:30,950 - root - INFO - handle_sale_menu choics Customer 14
+2024-03-19 15:43:33,927 - root - INFO - handle_sale_menu choics Customer 13
+2024-03-19 15:43:34,382 - root - INFO - handle_sale_menu choics Customer 13
+2024-03-19 15:43:41,793 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 15:43:41,794 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 19:15:27,387 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 19:15:31,078 - root - INFO - 19/03/2024 is today
+2024-03-19 19:15:40,904 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 19:15:40,905 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 19:15:56,247 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 19:16:48,499 - root - INFO - sale_menu
+2024-03-19 19:16:50,075 - root - INFO - handle_sale_menu choics /sale
+2024-03-19 19:17:16,927 - root - INFO - sale_menu
+2024-03-19 19:17:18,018 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 167, in sale_menu
+    query.edit_message_text(text="\u9500\u552e\u8bb0\u5f55\u64cd\u4f5c:", reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+2024-03-19 19:17:40,787 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 19:17:40,787 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 19:19:13,207 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 19:19:41,168 - root - INFO - sale_menu
+2024-03-19 19:19:43,624 - root - INFO - handle_sale_menu choics /sale_meni
+2024-03-19 19:21:20,765 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 19:21:20,768 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 19:23:37,143 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 19:23:39,057 - root - INFO - sale_menu
+2024-03-19 19:23:40,642 - root - INFO - handle_sale_menu choics /sale_menu
+2024-03-19 19:24:27,998 - root - INFO - sale_menu
+2024-03-19 19:24:29,063 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 167, in sale_menu
+    query.edit_message_text(text="\u9500\u552e\u8bb0\u5f55\u64cd\u4f5c:", reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+2024-03-19 20:11:18,165 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 20:11:18,483 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 20:11:26,020 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 20:11:30,429 - root - INFO - sale_menu
+2024-03-19 20:12:18,469 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_out.py", line 193, in record_out_payment
+    customer=context.user_data['out_customer'],
+KeyError: 'out_customer'
+2024-03-19 20:13:08,099 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 20:13:08,099 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 20:13:15,469 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 20:13:17,908 - root - INFO - sale_menu
+2024-03-19 20:14:54,997 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 20:14:55,599 - root - INFO - start to add a sale record
+2024-03-19 20:15:00,708 - root - INFO - record out product is Quince
+2024-03-19 20:15:19,748 - root - INFO - sold manual
+2024-03-19 20:16:26,319 - root - INFO - sale_menu
+2024-03-19 20:16:29,019 - root - INFO - sale_menu
+2024-03-19 20:16:30,002 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 167, in sale_menu
+    query.edit_message_text(text="\u9500\u552e\u8bb0\u5f55\u64cd\u4f5c:", reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 279, in _request_wrapper
+    raise BadRequest(message)
+telegram.error.BadRequest: Message is not modified: specified new message content and reply markup are exactly the same as a current content and reply markup of the message
+2024-03-19 20:34:35,939 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 20:34:35,969 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 20:46:47,830 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 20:59:15,460 - root - INFO - sale_menu
+2024-03-19 20:59:17,619 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 21:09:29,410 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 21:09:29,440 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 21:36:52,800 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 21:37:00,740 - root - INFO - sale_menu
+2024-03-19 21:37:02,911 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 21:37:05,136 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 21:37:06,091 - root - INFO - start to add a sale record
+2024-03-19 21:39:18,336 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 21:39:18,341 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 21:53:28,992 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 21:53:34,401 - root - INFO - sale_menu
+2024-03-19 21:53:36,527 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 21:53:37,884 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 21:53:39,013 - root - INFO - start to add a sale record
+2024-03-19 21:54:29,396 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 21:54:29,866 - root - INFO - start to add a sale record
+2024-03-19 21:54:33,356 - root - INFO - record out product is Customer 2
+2024-03-19 21:55:24,021 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 21:55:24,021 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 21:55:47,477 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 21:55:49,493 - root - INFO - sale_menu
+2024-03-19 21:55:50,881 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 21:55:52,448 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 21:55:53,373 - root - INFO - start to add a sale record
+2024-03-19 21:55:57,232 - root - INFO - record out product is Quince
+2024-03-19 21:56:14,026 - root - INFO - sold manual
+2024-03-19 22:06:18,073 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 22:06:18,082 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 22:06:32,113 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 22:06:36,942 - root - INFO - sale_menu
+2024-03-19 22:06:38,571 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:08:24,771 - root - INFO - sale_menu
+2024-03-19 22:08:25,241 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:14:21,142 - root - INFO - 20240319215628 deleted
+2024-03-19 22:14:25,337 - root - INFO - sale_menu
+2024-03-19 22:14:25,931 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:14:47,131 - root - INFO - sale_menu
+2024-03-19 22:14:47,671 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:14:49,719 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 22:14:54,601 - root - INFO - handdle_customer_selection: 1234
+2024-03-19 22:14:54,601 - root - INFO - got the customer sale info [<read_sales.Sale object at 0x0000016D2080E170>]
+2024-03-19 22:14:55,091 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 111, in handle_customer_selection
+    return find_sale_by_customer_name_with_data(update, context, selected_customer)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 126, in find_sale_by_customer_name_with_data
+    reply_long_message(update, context, response_message)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 52, in reply_long_message
+    send_long_text(query.effective_chat.id, response, context.bot)
+AttributeError: 'CallbackQuery' object has no attribute 'effective_chat'
+2024-03-19 22:15:03,244 - root - INFO - sale_menu
+2024-03-19 22:15:03,741 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:15:06,122 - root - INFO - handdle_customer_selection: sale_by_customer
+2024-03-19 22:15:06,122 - root - INFO - got the customer sale info []
+2024-03-19 22:15:06,122 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 111, in handle_customer_selection
+    return find_sale_by_customer_name_with_data(update, context, selected_customer)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 126, in find_sale_by_customer_name_with_data
+    reply_long_message(update, context, response_message)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 52, in reply_long_message
+    send_long_text(query.effective_chat.id, response, context.bot)
+AttributeError: 'CallbackQuery' object has no attribute 'effective_chat'
+2024-03-19 22:15:11,955 - root - INFO - handdle_customer_selection: sale_by_customer
+2024-03-19 22:15:11,961 - root - INFO - got the customer sale info []
+2024-03-19 22:15:11,961 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 111, in handle_customer_selection
+    return find_sale_by_customer_name_with_data(update, context, selected_customer)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 126, in find_sale_by_customer_name_with_data
+    reply_long_message(update, context, response_message)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 52, in reply_long_message
+    send_long_text(query.effective_chat.id, response, context.bot)
+AttributeError: 'CallbackQuery' object has no attribute 'effective_chat'
+2024-03-19 22:16:14,560 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 22:16:14,560 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 22:18:26,351 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 22:18:28,661 - root - INFO - sale_menu
+2024-03-19 22:18:30,501 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:18:30,501 - root - INFO - sale_menu
+2024-03-19 22:18:30,972 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:21:00,531 - root - INFO - sale_menu
+2024-03-19 22:21:01,027 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:21:13,214 - root - INFO - sale_menu
+2024-03-19 22:21:14,081 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:21:17,494 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 22:21:23,228 - root - INFO - handdle_customer_selection: Customer 14
+2024-03-19 22:21:23,232 - root - INFO - got the customer sale info [<read_sales.Sale object at 0x000001F993BFD3F0>, <read_sales.Sale object at 0x000001F993BFD6C0>, <read_sales.Sale object at 0x000001F993D3D7E0>, <read_sales.Sale object at 0x000001F993D3DFF0>]
+2024-03-19 22:21:30,766 - root - INFO - sale_menu
+2024-03-19 22:21:31,231 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:21:40,178 - root - INFO - 20240319215628 deleted
+2024-03-19 22:21:43,801 - root - INFO - sale_menu
+2024-03-19 22:21:44,283 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:21:57,313 - root - INFO - sale_menu
+2024-03-19 22:21:57,785 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 22:40:18,769 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 22:40:18,838 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 23:37:11,899 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 23:40:02,803 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 23:40:02,813 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 23:40:10,618 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 23:41:30,547 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 23:41:30,548 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 23:41:41,888 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 23:41:57,363 - root - INFO - sale_menu
+2024-03-19 23:41:58,283 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:42:02,815 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 125, in main_menu
+    update.message.reply_text('\u8bf7\u9009\u62e9\u83dc\u5355:', reply_markup=reply_markup)
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-19 23:43:12,778 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 125, in main_menu
+    update.message.reply_text('\u8bf7\u9009\u62e9\u83dc\u5355:', reply_markup=reply_markup)
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-19 23:43:13,553 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 125, in main_menu
+    update.message.reply_text('\u8bf7\u9009\u62e9\u83dc\u5355:', reply_markup=reply_markup)
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-19 23:45:11,501 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-19 23:45:11,502 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-19 23:52:50,123 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-19 23:53:27,623 - root - INFO - sale_menu
+2024-03-19 23:53:28,572 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:54:00,563 - root - INFO - sale_menu
+2024-03-19 23:54:01,528 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:54:02,691 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 23:54:03,794 - root - INFO - start to add a sale record
+2024-03-19 23:54:07,783 - root - INFO - record out product is Papaya
+2024-03-19 23:54:26,484 - root - INFO - sold manual
+2024-03-19 23:55:01,509 - root - INFO - sale_menu
+2024-03-19 23:55:02,414 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:56:04,544 - root - INFO - sale_menu
+2024-03-19 23:56:05,054 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:56:09,184 - root - INFO - sale_menu
+2024-03-19 23:56:10,209 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:56:28,679 - root - INFO - 20240313013422298 deleted
+2024-03-19 23:56:32,633 - root - INFO - sale_menu
+2024-03-19 23:56:33,144 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:56:45,376 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 23:56:49,684 - root - INFO - handdle_customer_selection: Customer 8
+2024-03-19 23:56:49,684 - root - INFO - got the customer sale info [<read_sales.Sale object at 0x0000020525BDC190>, <read_sales.Sale object at 0x0000020525BD09A0>, <read_sales.Sale object at 0x0000020525BD14B0>, <read_sales.Sale object at 0x0000020525BD2470>, <read_sales.Sale object at 0x0000020525BD0430>, <read_sales.Sale object at 0x0000020525D22B90>]
+2024-03-19 23:56:56,622 - root - INFO - sale_menu
+2024-03-19 23:56:57,093 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:57:21,409 - root - INFO - sale_menu
+2024-03-19 23:57:22,364 - root - INFO - Go to the handle_sale_menu_choice 
+2024-03-19 23:57:24,193 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-19 23:57:25,134 - root - INFO - start to add a sale record
+2024-03-19 23:57:28,814 - root - INFO - record out product is Papaya
+2024-03-20 00:03:08,901 - root - INFO - sold manual
+2024-03-20 00:04:11,069 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 243, in customer_menu
+    handle_customer_menu_choice(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 248, in handle_customer_menu_choice
+    query.answer()  # \u901a\u77e5 Telegram\uff0c\u56de\u8c03\u67e5\u8be2\u5df2\u88ab\u5904\u7406
+AttributeError: 'NoneType' object has no attribute 'answer'
+2024-03-20 00:04:18,184 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-20 00:04:39,524 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 243, in customer_menu
+    handle_customer_menu_choice(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 248, in handle_customer_menu_choice
+    query.answer()  # \u901a\u77e5 Telegram\uff0c\u56de\u8c03\u67e5\u8be2\u5df2\u88ab\u5904\u7406
+AttributeError: 'NoneType' object has no attribute 'answer'
+2024-03-20 00:04:42,017 - root - INFO - customer list is ['1234', 'Customer 1', 'Customer 10', 'Customer 11', 'Customer 12', 'Customer 13', 'Customer 14', 'Customer 15', 'Customer 2', 'Customer 3', 'Customer 4', 'Customer 5', 'Customer 6', 'Customer 7', 'Customer 8', 'Customer 9', 'hello word', 'hetao', '\u674e\u56db', '\u738b\u516b']
+2024-03-20 00:05:30,964 - root - INFO - we are looking for product: \u9f20\u6a19
+2024-03-20 00:05:30,964 - root - INFO - product: {'Product': '\u9f20\u6a19', 'Opening inventory': 0, 'Stock In': 0, 'Stock out': 0, 'Schedule inventory': 0, 'Total inventory': 0, 'In stock': 0}
+2024-03-20 00:05:30,964 - root - INFO - Show product message
+2024-03-20 00:05:39,884 - root - INFO - we are looking for product: mannual_input_product
+2024-03-20 00:18:06,281 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:18:06,301 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:25:26,734 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 00:26:39,664 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_delete.py", line 95, in start_delete_product
+    flag, reply_markup = get_product_buttons()
+TypeError: get_product_buttons() missing 2 required positional arguments: 'update' and 'context'
+2024-03-20 00:28:43,212 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:28:43,212 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:29:03,564 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 00:29:27,385 - root - INFO - Show product message
+2024-03-20 00:29:46,489 - root - INFO - 20/03/2024 is today
+2024-03-20 00:29:48,612 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:29:48,612 - root - INFO - here we input the supplier
+2024-03-20 00:29:48,612 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 58, in record_in_arrival_date
+    query.edit_message_text(text=arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons(manual_input=False, cancel=False))
+TypeError: get_supplier_buttons() missing 2 required positional arguments: 'update' and 'context'
+2024-03-20 00:29:51,580 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:29:51,584 - root - INFO - here we input the supplier
+2024-03-20 00:29:51,584 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 58, in record_in_arrival_date
+    query.edit_message_text(text=arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons(manual_input=False, cancel=False))
+TypeError: get_supplier_buttons() missing 2 required positional arguments: 'update' and 'context'
+2024-03-20 00:29:52,534 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:29:52,534 - root - INFO - here we input the supplier
+2024-03-20 00:29:52,534 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 58, in record_in_arrival_date
+    query.edit_message_text(text=arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons(manual_input=False, cancel=False))
+TypeError: get_supplier_buttons() missing 2 required positional arguments: 'update' and 'context'
+2024-03-20 00:29:52,984 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:29:52,984 - root - INFO - here we input the supplier
+2024-03-20 00:29:52,984 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 58, in record_in_arrival_date
+    query.edit_message_text(text=arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons(manual_input=False, cancel=False))
+TypeError: get_supplier_buttons() missing 2 required positional arguments: 'update' and 'context'
+2024-03-20 00:29:53,513 - root - INFO - [enter_custom_date] in the record in arrival date True
+2024-03-20 00:29:53,513 - root - INFO - here we input the date
+2024-03-20 00:29:59,804 - root - INFO - record in date manual
+2024-03-20 00:29:59,804 - root - INFO - we input the date is 19/03/2024
+2024-03-20 00:30:00,280 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 75, in manual_record_in_shipping_date
+    update.message.reply_text(message, reply_markup=get_supplier_buttons(manual_input=False, cancel=False))
+TypeError: get_supplier_buttons() missing 2 required positional arguments: 'update' and 'context'
+2024-03-20 00:37:43,355 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:37:43,395 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:38:11,425 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 00:39:09,835 - root - INFO - 20/03/2024 is today
+2024-03-20 00:39:12,640 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:39:12,640 - root - INFO - here we input the supplier
+2024-03-20 00:39:12,645 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 58, in record_in_arrival_date
+    query.edit_message_text(text=arrival_date_message(context.user_data['record_in_arrival_date']), reply_markup=get_supplier_buttons(update, context, manual_input=False, cancel=False))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 359, in post
+    body=json.dumps(data).encode('utf-8'),
+TypeError: <telegram.inline.inlinekeyboardmarkup.InlineKeyboardMarkup object at 0x0000021745077F80> is not JSON serializable
+2024-03-20 00:39:18,947 - root - INFO - [enter_custom_date] in the record in arrival date True
+2024-03-20 00:39:18,947 - root - INFO - here we input the date
+2024-03-20 00:42:40,499 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:42:40,499 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:42:48,309 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 00:43:05,100 - root - INFO - 20/03/2024 is today
+2024-03-20 00:43:07,187 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:43:07,187 - root - INFO - here we input the supplier
+2024-03-20 00:43:07,187 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 59, in record_in_arrival_date
+    query.edit_message_text(text=arrival_date_message(today), reply_markup=get_supplier_buttons(update, context, manual_input=False, cancel=False))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 359, in post
+    body=json.dumps(data).encode('utf-8'),
+TypeError: <telegram.inline.inlinekeyboardmarkup.InlineKeyboardMarkup object at 0x000002402CCBDD00> is not JSON serializable
+2024-03-20 00:45:45,990 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:45:45,990 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:46:19,485 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 00:46:23,625 - root - INFO - 20/03/2024 is today
+2024-03-20 00:46:25,795 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:46:25,795 - root - INFO - here we input the supplier
+2024-03-20 00:46:26,262 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 60, in record_in_arrival_date
+    reply_message(update, context, arrival_date_message(today), get_supplier_buttons(update, context, manual_input=False, cancel=False))
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 48, in reply_message
+    bot.send_message(chat_id=query.message.chat.id, text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 359, in post
+    body=json.dumps(data).encode('utf-8'),
+TypeError: <telegram.inline.inlinekeyboardmarkup.InlineKeyboardMarkup object at 0x0000020B42F4DE40> is not JSON serializable
+2024-03-20 00:57:03,113 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:57:03,150 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:57:25,357 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 00:57:32,211 - root - INFO - 20/03/2024 is today
+2024-03-20 00:57:35,675 - root - INFO - [choose_today] in the record in arrival date False
+2024-03-20 00:57:35,675 - root - INFO - here we input the supplier
+2024-03-20 00:57:56,545 - root - INFO - [UNSW ] in the record in supplier False
+2024-03-20 00:58:00,196 - root - INFO - [plm] in the record in product False
+2024-03-20 00:58:20,626 - root - INFO - 20/03/2024 is today
+2024-03-20 00:58:23,255 - root - INFO - [enter_custom_date] in the record in arrival date True
+2024-03-20 00:58:23,255 - root - INFO - here we input the date
+2024-03-20 00:58:30,270 - root - INFO - record in date manual
+2024-03-20 00:58:30,270 - root - INFO - we input the date is 19/03/2024
+2024-03-20 00:58:30,745 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_record_in.py", line 79, in manual_record_in_shipping_date
+    update.message.reply_text(message, reply_markup=get_supplier_buttons(update, context, manual_input=False, cancel=False))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 764, in reply_text
+    return self.bot.send_message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 359, in post
+    body=json.dumps(data).encode('utf-8'),
+TypeError: <telegram.inline.inlinekeyboardmarkup.InlineKeyboardMarkup object at 0x0000019059521B40> is not JSON serializable
+2024-03-20 00:59:36,945 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 00:59:36,953 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 00:59:58,585 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:00:02,695 - root - INFO - 20/03/2024 is today
+2024-03-20 01:00:06,924 - root - INFO - [enter_custom_date] in the record in arrival date True
+2024-03-20 01:00:06,925 - root - INFO - here we input the date
+2024-03-20 01:00:11,513 - root - INFO - record in date manual
+2024-03-20 01:00:11,515 - root - INFO - we input the date is 19/03/20 - \u63d0\u4f9b\u7684\u65e5\u671f\u65e0\u6548\u6216\u683c\u5f0f\u4e0d\u6b63\u786e\u3002
+2024-03-20 01:00:18,585 - root - INFO - record in date manual
+2024-03-20 01:00:18,590 - root - INFO - we input the date is 19/03/2024
+2024-03-20 01:00:21,841 - root - INFO - [\u4f9b\u5e94\u5546A] in the record in supplier False
+2024-03-20 01:00:25,287 - root - INFO - [AD MILK] in the record in product False
+2024-03-20 01:00:54,600 - root - INFO - add supplier Betsy
+2024-03-20 01:02:00,535 - root - INFO - Show warehousing message
+2024-03-20 01:10:03,811 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 341, in get_all_warehousing
+    show_warehousing_records(update, context, all_records)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 276, in show_warehousing_records
+    send_long_text(update.effective_chat.id, message, context.bot)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 26, in send_long_text
+    bot.send_message(chat_id=chat_id, text=part)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 174.0 seconds
+2024-03-20 01:15:38,535 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:15:38,551 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:16:50,955 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:19:04,866 - root - INFO - Show warehousing message
+2024-03-20 01:27:02,759 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 346, in get_all_warehousing
+    reply_long_message(update, context, message)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 277, in show_warehousing_records
+    reply_long_message(update, context, message)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 56, in reply_long_message
+    send_long_text(query.message.chat.id, response, context.bot)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 26, in send_long_text
+    bot.send_message(chat_id=chat_id, text=part)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 963.0 seconds
+2024-03-20 01:27:03,419 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 292, in start_find_by_date
+    logging.info(f"start find by date")
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 51, in reply_message
+    bot.send_message(update.effective_chat.id, text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 962.0 seconds
+2024-03-20 01:31:43,196 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:31:43,226 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:31:59,906 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:32:06,785 - root - INFO - start find by date
+2024-03-20 01:32:10,668 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 303, in find_by_date
+    get_warehousing_info_by_date(update, context, selected_date)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 310, in get_warehousing_info_by_date
+    text = update.message.text
+AttributeError: 'NoneType' object has no attribute 'text'
+2024-03-20 01:33:25,347 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:33:25,347 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:33:38,074 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:33:54,772 - root - INFO - start find by date
+2024-03-20 01:33:57,956 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 303, in find_by_date
+    get_warehousing_info_by_date(update, context, selected_date)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 316, in get_warehousing_info_by_date
+    update.message.reply_text(text=f"{selected_date} \u6ca1\u6709\u627e\u5230\u5339\u914d\u7684\u8bb0\u5f55\u3002")
+AttributeError: 'NoneType' object has no attribute 'reply_text'
+2024-03-20 01:35:47,406 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:35:47,478 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:35:59,466 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:36:06,117 - root - INFO - start find by date
+2024-03-20 01:37:08,809 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:37:08,809 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:37:16,831 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:37:23,918 - root - INFO - start find by date
+2024-03-20 01:37:30,300 - root - INFO - start find by date
+2024-03-20 01:37:31,211 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 293, in start_find_by_date
+    reply_message(update, context, '\u8bf7\u9009\u62e9\u65e5\u671f:', reply_markup=build_date_keyboard())
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 48, in reply_message
+    bot.send_message(chat_id=query.message.chat.id, text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 334.0 seconds
+2024-03-20 01:38:03,449 - root - INFO - start find by date
+2024-03-20 01:39:13,626 - root - INFO - start find by date
+2024-03-20 01:39:14,526 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 293, in start_find_by_date
+    reply_message(update, context, '\u8bf7\u9009\u62e9\u65e5\u671f:', reply_markup=build_date_keyboard())
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 48, in reply_message
+    bot.send_message(chat_id=query.message.chat.id, text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 231.0 seconds
+2024-03-20 01:39:20,998 - root - INFO - start find by date
+2024-03-20 01:39:21,984 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 293, in start_find_by_date
+    reply_message(update, context, '\u8bf7\u9009\u62e9\u65e5\u671f:', reply_markup=build_date_keyboard())
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 48, in reply_message
+    bot.send_message(chat_id=query.message.chat.id, text=message, reply_markup=reply_markup)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 224.0 seconds
+2024-03-20 01:39:39,985 - root - INFO - start find by date
+2024-03-20 01:40:22,906 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:40:22,906 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:40:32,176 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:40:38,384 - root - INFO - start find by date
+2024-03-20 01:40:45,952 - root - INFO - Show warehousing message
+2024-03-20 01:40:46,519 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 327, in manual_find_warehousing_date
+    get_warehousing_info_by_date(update, context, custom_date)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 315, in get_warehousing_info_by_date
+    show_warehousing_records(update, context, matching_records)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 277, in show_warehousing_records
+    reply_long_message(update, context, message)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 58, in reply_long_message
+    send_long_text(update.effective_chat.id, response, context.bot)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_handle_message.py", line 26, in send_long_text
+    bot.send_message(chat_id=chat_id, text=part)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 513, in send_message
+    return self._message(  # type: ignore[return-value]
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 139.0 seconds
+2024-03-20 01:41:18,987 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:41:18,987 - apscheduler.scheduler - INFO - Scheduler has been shut down
+2024-03-20 01:42:20,676 - apscheduler.scheduler - INFO - Scheduler started
+2024-03-20 01:42:37,749 - root - INFO - start find by date
+2024-03-20 01:42:41,054 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 308, in find_by_date
+    query.edit_message_text(text="\u8bf7\u8f93\u5165\u65e5\u671f\uff1a\u8bf7\u4f7f\u7528DD/MM/YYYY\u683c\u5f0f\u8f93\u5165")
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 25.0 seconds
+2024-03-20 01:42:45,849 - telegram.ext.dispatcher - ERROR - No error handlers are registered, logging exception.
+Traceback (most recent call last):
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\dispatcher.py", line 555, in process_update
+    handler.handle_update(update, self, check, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\conversationhandler.py", line 626, in handle_update
+    new_state = handler.handle_update(update, dispatcher, check_result, context)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\handler.py", line 198, in handle_update
+    return self.callback(update, context)
+  File "c:\Users\50390\OneDrive\surface book 2\OneDrive\Others\Working\Coding Program\robot report stock\robot_report_stock\src\user_all_records.py", line 308, in find_by_date
+    query.edit_message_text(text="\u8bf7\u8f93\u5165\u65e5\u671f\uff1a\u8bf7\u4f7f\u7528DD/MM/YYYY\u683c\u5f0f\u8f93\u5165")
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\callbackquery.py", line 216, in edit_message_text
+    return self.message.edit_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\message.py", line 1935, in edit_text
+    return self.bot.edit_message_text(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 130, in decorator
+    result = func(*args, **kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 2582, in edit_message_text
+    return self._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\ext\extbot.py", line 199, in _message
+    result = super()._message(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 332, in _message
+    result = self._post(endpoint, data, timeout=timeout, api_kwargs=api_kwargs)
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\bot.py", line 295, in _post
+    return self.request.post(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 356, in post
+    result = self._request_wrapper(
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 272, in _request_wrapper
+    message = str(self._parse(resp.data))
+  File "C:\Users\50390\anaconda3\lib\site-packages\telegram\utils\request.py", line 230, in _parse
+    raise RetryAfter(retry_after)
+telegram.error.RetryAfter: Flood control exceeded. Retry in 20.0 seconds
+2024-03-20 01:43:10,246 - root - INFO - Show warehousing message
+2024-03-20 01:55:07,308 - telegram.ext.updater - INFO - Received signal 2 (SIGINT), stopping...
+2024-03-20 01:55:07,340 - apscheduler.scheduler - INFO - Scheduler has been shut down

@@ -11,7 +11,10 @@ from read_customer import Customers
 from helper import check_shipping_date
 
 from datetime import datetime 
-from user_handle_message import send_long_text, cancel, build_date_keyboard, build_menu, handle_input
+from user_handle_message import send_long_text, cancel, handle_input
+from user_handle_message import reply_message
+
+from user_get_button_menu import get_customer_buttons
 
 # Telegram Bot Token
 TOKEN = '6487583852:AAGH3YlPRpfuOtLt-GlWvyI4Ss-B1lxOdtA'
@@ -26,16 +29,9 @@ CUSTOMER_NAME, CUSTOMER_PAYABLE, CUSTOMER_PAYMENT, CUSTOMER_COMFIRMATION = range
 HANDLE_MANUAL_NEW_CUSTOMER_INPUT = range(1)
 
 def customer_add(update: Update, context: CallbackContext) -> int:
-    customer_list = customers_manager.get_customer_name_list()  
-    for name in sales_manager.get_customer_name_list():
-        if name not in customer_list:
-            customer_list.append(name)
-    logging.info(f"customer list is {customer_list}")
-    buttons = [InlineKeyboardButton(name, callback_data=name) for name in customer_list]
-    buttons.append(InlineKeyboardButton("手动输入", callback_data="mannual_input_customer"))
-    buttons.append(InlineKeyboardButton("取消", callback_data="cancel_input_customer"))
-    reply_markup = InlineKeyboardMarkup(build_menu(buttons, 2))
-    update.message.reply_text('请选择或输入客户名字：', reply_markup=reply_markup)
+    flag, reply_markup = get_customer_buttons(update, context, manual_input=True, cancel=True)
+    # update.message.reply_text('请选择或输入客户名字：', reply_markup=reply_markup)
+    reply_message(update, context, '请选择或输入客户名字：', reply_markup)
     return CUSTOMER_NAME
 
 def customer_name(update: Update, context: CallbackContext) -> int:
@@ -47,7 +43,7 @@ def customer_name(update: Update, context: CallbackContext) -> int:
         query.edit_message_text(text="请输入客户名字：")
         return HANDLE_MANUAL_NEW_CUSTOMER_INPUT
     elif selected_customer in ["cancel_input_customer"]:
-        return cancel
+        return cancel(update, context)
     context.user_data['customer_name'] = selected_customer
     message = '请输入应付金额:'
     query.edit_message_text(text=message)

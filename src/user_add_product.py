@@ -11,8 +11,9 @@ from read_inventory import Inventories
 from read_customer import Customers
 
 from datetime import datetime 
-from user_handle_message import send_long_text, cancel, build_date_keyboard, build_menu, handle_input
+from user_handle_message import send_long_text, cancel, handle_input, reply_message
 from helper import check_shipping_date
+from user_get_button_menu import get_product_buttons
 
 # Telegram Bot Token
 TOKEN = '6487583852:AAGH3YlPRpfuOtLt-GlWvyI4Ss-B1lxOdtA'
@@ -26,7 +27,8 @@ customers_manager = Customers()
 ENTER_PRODUCT_NAME = range(1)
 
 def add_product_name(update: Update, context: CallbackContext) -> str:
-    update.message.reply_text('请输入产品名称：')
+    message = '请输入产品名称：'
+    reply_message(update, context, message, None)
     return ENTER_PRODUCT_NAME
 
 def enter_product_name(update: Update, context: CallbackContext) -> str:
@@ -39,25 +41,23 @@ def enter_product_name(update: Update, context: CallbackContext) -> str:
 (PRODUCT_NAME, MANUAL_PRODUCT_NAME, STOCK_IN, STOCK_OUT, SCHEDULE_INVENTORY, PRODUCT_CONFIRMATION) = range(6)
 
 def start_add_or_update_product(update: Update, context: CallbackContext) -> None:
-    update.message.reply_text("本次需要输入多个数据，如果只想添加产品名称，可以通过/add_product_name")
-    # update.message.reply_text("请选择或输入产品名称，也可以发送 /cancel 或按取消，申请取消操作。")
-    product_list = inventory_manager.get_product_list()
-    if len(product_list) == 0:
-        update.message.reply_text("当前库存中没有产品。")
-        return ConversationHandler.END
-    keyboard = [InlineKeyboardButton(name, callback_data=name) for name in product_list]
-    keyboard.append(InlineKeyboardButton("手动输入", callback_data="mannual_input_product"))
-    keyboard.append(InlineKeyboardButton("取消", callback_data="cancel_input_product"))
-    reply_markup = InlineKeyboardMarkup(build_menu(keyboard, 4))
-    update.message.reply_text("请选择或输入产品名称，也可以发送 /cancel 或按取消，申请取消操作。", reply_markup=reply_markup)
+    reply_message(update, context, "本次需要输入多个数据，如果只想添加产品名称，可以通过/add_product_name", None)
+    flag, reply_markup = get_product_buttons(update, context) 
+    message = "请选择或输入产品名称，也可以发送 /cancel 或按取消，申请取消操作。"
+    message += f"\n如果该产品已在库存，输入的数字为增加库存是‘10’则为在原有基础上增加10，输入增加库存为‘-10’则为在原有基础上减少10个。"
+    message += f"\n\n如果该产品没有加入，则新添加到里面。"
+    message += f"\n\n如果您想输入从供货商入货，可以先输入 /cancel ，再输入 /record_in ，表示添加入货记录。"
+    message += f"\n\n如果只想添加产品名称，不想修改别的内容，可以输入或点击 /cancel , 再点击或输入 /add_product_name 。"
+    message += f"\n\n可以直接点击蓝色字体跳转"
+    # update.message.reply_text("请选择或输入产品名称，也可以发送 /cancel 或按取消，申请取消操作。", reply_markup=reply_markup)
+    reply_message(update, context, message, reply_markup)
     return PRODUCT_NAME
 
 def product_name(update: Update, context: CallbackContext) -> None:
     query = update.callback_query
     query.answer()
     if query.data == 'cancel_input_product':
-        query.edit_message_text("操作已取消。")
-        return ConversationHandler.END
+        return  cancel(update, context)
     elif query.data == "mannual_input_product":
         query.edit_message_text("请输入产品名称:")
         return MANUAL_PRODUCT_NAME 
@@ -115,8 +115,11 @@ def schedule_inventory(update: Update, context: CallbackContext) -> None:
             update.message.reply_text("请输入有效的正数作为单价:")
             return SCHEDULE_INVENTORY
     confirmation_text = "请确认您提供的信息：\n"
-    for key, value in context.user_data.items():
-        confirmation_text += f"{key}: {value}\n"
+    confirmation_text += f"产品名称 : {context.user_data['product']}\n"
+    confirmation_text += f"入库总数量 : {context.user_data['stock_in']}\n"
+    confirmation_text += f"出库总数量 : {context.user_data['stock_out']}\n"
+    confirmation_text += f"预定总数量 : {context.user_data['schedule_inventory']}\n"
+    confirmation_text += f"确认请按 'yes'，重新输入请按 'no'。"
     # update.message.reply_text(confirmation_text + "确认请回复 'yes'，重新输入请回复 'no'。")
     # 确认信息
     keyboard = [
@@ -124,7 +127,6 @@ def schedule_inventory(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton("取消", callback_data='cancel')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    # query.edit_message_text(text=f"您确定要删除客户 '{context.user_data['customer_delete_name']}' 吗？", reply_markup=reply_markup)
     update.message.reply_text(confirmation_text, reply_markup=reply_markup)
     return PRODUCT_CONFIRMATION
 
@@ -143,11 +145,9 @@ def perform_add_or_update(update, context):
                                                         stock_out=stock_out, 
                                                         schedule_inventory=schedule_inventory, 
                                                         )
-        # query.edit_message_text(text=message)  
     elif query.data == 'cancel':
         message = '已取消删除操作。'
-        # query.edit_message_text(text='已取消删除操作。')
         
-    # user_data.clear()
+    user_data.clear()
     context.bot.send_message(chat_id=query.message.chat_id, text=message)
     return ConversationHandler.END
